@@ -1,26 +1,75 @@
-# Evaluating Knowledge Stability and Risk in LLMs With and Without RAG
+# Evaluating Knowledge Stability and Risk in LAG-Enhanced Models
 
 **Course:** CS 4365/6365 - Intelligent Embodied Computing, Spring 2026  
 **Group Members:** Jaideep Lingineni, Nivedha Sivakumar  
 **Georgia Institute of Technology**
 
+---
+
 ## Overview
 
-This project evaluates how different LLM models respond to domain-specific AWS 
-questions, comparing baseline LLM responses against RAG-augmented responses. 
-We measure correctness and risk to understand where LLMs hallucinate confidently 
-in fast-changing technical domains.
+This project evaluates how large language models (LLMs) respond to domain-specific AWS questions by comparing baseline model responses against Retrieval-Augmented Generation (RAG)-enhanced responses. Our goal is to measure correctness and risk, especially in cases where models may hallucinate confidently in fast-changing technical domains.
 
+---
 
-## Models (Planned)
+## Models
 
-- Llama 3.2 (3B parameters)
-- Llama 3.1 (8B parameters)  
-- DeepSeek-R1 (8B parameters)
+### Baseline Models (Implemented)
+- GPT-4.0 Mini (API)
+- Claude Haiku 4.5 (API)
+- Gemma 3 (27B-IT)
 
-## Current Status
+> Note: We initially planned to use local models, but due to hardware limitations we switched to API-based models instead.
 
-- [x] Question bank finalized
-- [ ] Model setup and response collection
-- [ ] RAG integration
-- [ ] Scoring and analysis
+### Planned RAG Models
+- GPT-4.0 Mini + RAG
+- Claude Haiku 4.5 + RAG
+- Gemma 3 (27B-IT) + RAG
+
+---
+
+## Methodology
+
+### 1. Question Dataset
+- Fixed dataset of AWS-related technical questions
+- Focus on recently updated AWS features to test knowledge freshness
+
+### 2. Baseline Response Collection
+- A Python script queries all baseline models using their APIs
+- Responses are stored in a CSV file for later evaluation
+
+### 3. Evaluation
+- Model responses are compared against verified answers from official AWS documentation
+- An automated grading script classifies responses as correct or incorrect
+- Results are manually reviewed to verify grading accuracy
+
+### 4. Planned RAG Integration
+- Add retrieval from official AWS documentation and related sources
+- Re-run the same question set with retrieval support
+- Compare RAG-enhanced performance against baseline results
+
+---
+
+## Project Structure
+
+```text
+Knowledge-Stability-and-Risk-in-LLMs/
+│
+├── data/
+│   ├── questions_clean.csv
+│   ├── response_template.csv
+│   └── raw question datasets
+│
+├── results/
+│   ├── baseline_responses.csv
+│   └── baseline_results.csv
+│
+├── Scripts/
+│   ├── collect_responses.py
+│   └── grade_baseline.py
+│
+├── venv/
+├── .env
+├── .gitignore
+├── requirements.txt
+└── README.md
