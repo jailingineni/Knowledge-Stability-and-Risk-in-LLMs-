@@ -1,0 +1,1335 @@
+question_id,question,model,model_version,rag_enabled,prompt,response,timestamp_utc,correctness,impact,likelihood,risk_score,notes
+1,"Can public certificates issued by AWS Certificate Manager be exported for use outside AWS services? If not, what alternatives exist?",ChatGPT,gpt-4o-mini,False,"Can public certificates issued by AWS Certificate Manager be exported for use outside AWS services? If not, what alternatives exist?","No, public certificates issued by AWS Certificate Manager (ACM) cannot be exported for use outside AWS services. They are designed to be used exclusively within the AWS ecosystem for services like Elastic Load Balancing, Amazon CloudFront, and API Gateway.
+
+### Alternatives:
+1. **Use a Third-Party Certificate Authority**: Obtain a certificate from a third-party CA and import it into ACM, which can then be used with AWS services. You can also export and use it outside AWS.
+
+2. **Use AWS Private CA**: If you need internal certificates, consider using AWS Private Certificate Authority, which allows you to create and manage custom private certificates that can be exported.
+
+3. **Self-Signed Certificates**: For development and testing environments, you can create self-signed certificates which you can freely use and export.
+
+4. **Custom Deployment Solutions**: Depending on your infrastructure, you might consider deploying your own certificate management solution (like using tools such as Certbot with Let’s Encrypt).
+
+These alternatives allow more flexibility if you require certificates that are not confined to AWS services.",2026-03-16T19:29:02.501901+00:00,Incorrect,,,,"The model response incorrectly states that public certificates from ACM cannot be exported, whereas they can be exported if requested as exportable. It misses the key requirement regarding the exportable option and provides inaccurate alternatives."
+1,"Can public certificates issued by AWS Certificate Manager be exported for use outside AWS services? If not, what alternatives exist?",Claude,claude-haiku-4-5,False,"Can public certificates issued by AWS Certificate Manager be exported for use outside AWS services? If not, what alternatives exist?","# AWS Certificate Manager - Export Limitations
+
+**Direct Answer: No**, public certificates issued by ACM cannot be exported. This is a fundamental design constraint.
+
+## Why Not?
+
+ACM manages the private key on your behalf in AWS-controlled hardware security modules (HSMs). AWS deliberately doesn't provide access to these private keys for security reasons—you cannot export them.
+
+## Alternatives for Using Certificates Outside AWS
+
+### 1. **Request a Public Certificate from a CA Directly**
+- Issue certificates directly from Certificate Authorities (DigiCert, Sectigo, etc.)
+- Import them into ACM if needed for AWS services
+- Use them wherever you want outside AWS
+- **Downside**: Manual renewal management, costs per certificate
+
+### 2. **Use Private Certificates (ACM Private CA)**
+- Issue private certificates from your own certificate authority
+- You control the private key
+- Can export and use outside AWS
+- Good for internal services and hybrid setups
+- **Trade-off**: You manage the CA infrastructure
+
+### 3. **Use Let's Encrypt with Automation**
+- Free certificates via ACME protocol
+- Tools like Certbot automate renewal
+- Portable across platforms
+- **Best for**: Non-AWS services needing free, portable certs
+
+### 4. **Hybrid Approach**
+- Use ACM public certs for AWS services (ALB, CloudFront, API Gateway)
+- Use separately-issued certs for on-premises or third-party services
+- Keep them in sync via automation if needed
+
+## Bottom Line
+
+If you need certificates that are portable outside AWS, **don't use ACM's public certificates**. Request them directly from a CA instead, or consider ACM Private CA if you have control over your CA infrastructure.",2026-03-16T19:29:08.131299+00:00,Incorrect,,,,"The model response incorrectly states that public certificates issued by ACM cannot be exported, which contradicts the verified reference. Although it provides valid alternatives, it fails to acknowledge that exportable certificates can be requested. This omission is key to answering the question correctly."
+1,"Can public certificates issued by AWS Certificate Manager be exported for use outside AWS services? If not, what alternatives exist?",Gemma,gemma-3-27b-it,False,"Can public certificates issued by AWS Certificate Manager be exported for use outside AWS services? If not, what alternatives exist?","No, public certificates issued by AWS Certificate Manager (ACM) **cannot** be directly exported for use outside of AWS services. ACM certificates are designed to be used *with* AWS services like ELB, CloudFront, API Gateway, etc., and remain within the AWS ecosystem.
+
+Alternatives for obtaining certificates usable outside of AWS include:
+
+*   **Importing your own certificate:** You can import a certificate from a third-party Certificate Authority (CA) into ACM. While still managed by ACM, you *can* export the private key associated with imported certificates (though this is generally discouraged for security reasons).
+*   **Using a third-party CA directly:** Obtain a certificate from a commercial CA like DigiCert, Let's Encrypt, Sectigo, etc. These certificates are yours to manage and export as needed.
+*   **AWS Private CA:** If you need a private CA within AWS for internal use, AWS Private CA allows you to issue and manage your own private certificates, which *can* be exported.",2026-03-16T19:29:13.594808+00:00,Incorrect,,,,The model response incorrectly states that public certificates cannot be exported without acknowledging that exportable certificates can be requested. It also misses the nuance regarding exportable certificates being an option.
+2,What is the maximum validity period public certificates issued from AWS Certificate Manager (ACM),ChatGPT,gpt-4o-mini,False,What is the maximum validity period public certificates issued from AWS Certificate Manager (ACM),"The maximum validity period for public certificates issued from AWS Certificate Manager (ACM) is 13 months (397 days). AWS ACM follows the guidelines set by the Certificate Authority/Browser (CA/B) Forum, which limits the validity of publicly trusted SSL/TLS certificates.",2026-03-16T19:29:16.935886+00:00,Incorrect,,,,"The model response states an outdated validity period of 397 days, while the maximum is now 198 days as per the verified reference."
+2,What is the maximum validity period public certificates issued from AWS Certificate Manager (ACM),Claude,claude-haiku-4-5,False,What is the maximum validity period public certificates issued from AWS Certificate Manager (ACM),"# AWS Certificate Manager (ACM) - Maximum Validity Period
+
+The maximum validity period for public certificates issued from AWS Certificate Manager is **13 months (approximately 397 days)**.
+
+This is the standard across all major certificate authorities and aligns with industry regulations set by the CA/Browser Forum, which limits the validity period of SSL/TLS certificates to a maximum of 13 months.
+
+## Important Note
+
+- ACM automatically renews your certificates **before expiration** (typically 60 days before), so you don't need to manually manage renewal timelines
+- This automatic renewal applies to both public and private certificates
+- Certificates can be renewed as many times as needed without additional cost",2026-03-16T19:29:19.822800+00:00,Incorrect,,,,"The model response states an outdated validity period of approximately 397 days, while the maximum validity period is now 198 days as per the verified reference."
+2,What is the maximum validity period public certificates issued from AWS Certificate Manager (ACM),Gemma,gemma-3-27b-it,False,What is the maximum validity period public certificates issued from AWS Certificate Manager (ACM),"The maximum validity period for public certificates issued by AWS Certificate Manager (ACM) is **398 days**.
+
+This is due to a requirement from Certificate Authorities (CAs) following industry best practices and guidelines to reduce the window of opportunity for misuse if a private key is compromised. ACM automatically renews your certificates to avoid expiration, leveraging this maximum validity period.",2026-03-16T19:29:23.025908+00:00,Incorrect,,,,"The model response contains a factual error regarding the maximum validity period, stating 398 days instead of the correct 198 days."
+3,"Does Amazon EC2 support nested virtualization on virtualized EC2 instances, and which instance families currently support this feature?",ChatGPT,gpt-4o-mini,False,"Does Amazon EC2 support nested virtualization on virtualized EC2 instances, and which instance families currently support this feature?","Yes, Amazon EC2 supports nested virtualization on certain virtualized EC2 instances. As of the latest information, the instance families that support nested virtualization include:
+
+- **M5**
+- **M5a**
+- **M5n**
+- **C5**
+- **C5a**
+- **C5n**
+- **R5**
+- **R5a**
+- **R5n**
+- **T2**
+- **T3**
+- **T3a**
+
+Make sure to check the most current AWS documentation, as supported features can evolve.",2026-03-16T19:29:27.290672+00:00,Incorrect,,,,"The model response lists outdated instance families. The current supported families are C8i, M8i, and R8i, which were not mentioned."
+3,"Does Amazon EC2 support nested virtualization on virtualized EC2 instances, and which instance families currently support this feature?",Claude,claude-haiku-4-5,False,"Does Amazon EC2 support nested virtualization on virtualized EC2 instances, and which instance families currently support this feature?","# EC2 Nested Virtualization Support
+
+**Short Answer:** Yes, EC2 supports nested virtualization, but **only on specific instance families**.
+
+## Supported Instance Families
+
+Currently, nested virtualization is supported on:
+
+- **M5 instances** (and later generations like M6i, M7i)
+- **M5zn instances**
+- **C5 instances** (and later generations like C6i, C7i)
+- **R5 instances** (and later generations like R6i, R7i)
+- **z1d instances**
+- **Newer generation instances** (generally 5th gen and later from each family)
+
+## Key Considerations
+
+1. **Must be enabled explicitly** - You need to set the `CpuOptions` when launching the instance, specifically enabling the nested virtualization CPU option
+
+2. **Older generations don't support it** - Earlier instance families (M4, C4, R4, etc.) do not support nested virtualization
+
+3. **Performance impact** - Expect performance overhead when running virtualized workloads on virtualized instances
+
+4. **Use cases** - Primarily for development, testing, and running container orchestration platforms
+
+## Verification
+
+AWS documentation recommends checking the specific instance type details in the EC2 console or AWS documentation, as support may be added to additional instance families over time.
+
+If you're planning to use this feature for a specific workload, I'd recommend testing with your target instance type first to confirm current support.",2026-03-16T19:29:32.800086+00:00,Incorrect,,,,"The model response lists outdated instance families, as it mentions M5, C5, and R5 which do not include the latest supported families stated in the verified answer: C8i, M8i, and R8i. This is a factual error."
+3,"Does Amazon EC2 support nested virtualization on virtualized EC2 instances, and which instance families currently support this feature?",Gemma,gemma-3-27b-it,False,"Does Amazon EC2 support nested virtualization on virtualized EC2 instances, and which instance families currently support this feature?","Yes, Amazon EC2 supports nested virtualization on certain virtualized EC2 instances.
+
+Currently, the following instance families support nested virtualization:
+
+*   **m5, m5a, m5d, m6i, m6a**
+*   **c5, c5a, c5d, c6i, c6a**
+*   **r5, r5a, r5d, r6i, r6a**
+*   **x2idn, x2iedn** 
+
+Specifically, you need instances with Intel VT-x or AMD-V virtualization extensions *exposed* to the instance. These families, with appropriate sizes, generally meet that requirement.
+
+It's important to note:
+
+*   Not *all* sizes within these families support nested virtualization. You need to check the AWS documentation for specific size details.
+*   You must enable the `nested-virtualization` instance option when launching the instance.
+
+
+
+You can find the most up-to-date information here: [https://aws.amazon.com/ec2/instance-types/nested-virtualization/](https://aws.amazon.com/ec2/instance-types/nested-virtualization/)",2026-03-16T19:29:39.123521+00:00,Incorrect,,,,"The model response mentions instance families that do not match the current verified answer, which specifies C8i, M8i, and R8i. This discrepancy indicates a factual error and therefore makes the response incorrect."
+4,"How does AWS Backup support cross-Region snapshot copies to logically air-gapped vaults, and what change simplified this process in 2026?",ChatGPT,gpt-4o-mini,False,"How does AWS Backup support cross-Region snapshot copies to logically air-gapped vaults, and what change simplified this process in 2026?","AWS Backup supports cross-Region snapshot copies by allowing users to create backup plans that include cross-Region copy rules. This enables you to automatically replicate backups to another AWS Region, enhancing disaster recovery and compliance strategies.
+
+In 2026, AWS simplified this process by introducing the capability to create and manage backup vaults that are logically air-gapped from the source vaults. This change allows for the automated transfer of snapshots to these air-gapped vaults in different regions, ensuring data protection while minimizing the risk of unauthorized access or accidental deletion. 
+
+The air-gap feature provides a level of isolation, making it easier to meet compliance requirements and safeguard data against threats, such as ransomware.",2026-03-16T19:29:42.278323+00:00,Incorrect,,,,"The response does not mention the two-step process prior to 2026 and fails to explain the specific single-action copy feature introduced in 2026, which is critical to the question."
+4,"How does AWS Backup support cross-Region snapshot copies to logically air-gapped vaults, and what change simplified this process in 2026?",Claude,claude-haiku-4-5,False,"How does AWS Backup support cross-Region snapshot copies to logically air-gapped vaults, and what change simplified this process in 2026?","I should be direct with you: I don't have reliable information about AWS Backup features or changes in 2026.
+
+My knowledge was last updated in April 2024, so I cannot speak authoritatively about:
+- Specific 2026 changes to AWS Backup
+- Features released or modified after my training data cutoff
+- Current capabilities around cross-Region snapshot copies to air-gapped vaults
+
+**What I can confirm from my training data:**
+- AWS Backup does support cross-Region backup copies as a disaster recovery mechanism
+- The service includes vault options for backup storage
+- AWS has emphasized air-gap and immutability features for compliance scenarios
+
+**For accurate current information, I'd recommend:**
+1. Checking the official AWS Backup documentation
+2. Reviewing AWS release notes and announcements
+3. Consulting the latest AWS re:Invent presentations or blog posts
+
+If you're evaluating based on this question, it's better I'm honest about the limitations rather than provide potentially outdated or incorrect information about 2026 features.
+
+Is there an AWS Backup feature from my training period (pre-April 2024) I can help clarify instead?",2026-03-16T19:29:46.426829+00:00,Incorrect,,,,"The response fails to address the specific requirements of the question, including details about cross-Region snapshot copies and the change introduced in 2026. It lacks relevant information and instead focuses on limitations, making it incomplete and therefore incorrect."
+4,"How does AWS Backup support cross-Region snapshot copies to logically air-gapped vaults, and what change simplified this process in 2026?",Gemma,gemma-3-27b-it,False,"How does AWS Backup support cross-Region snapshot copies to logically air-gapped vaults, and what change simplified this process in 2026?","AWS Backup supports cross-Region snapshot copies to logically air-gapped vaults using **Backup Vault Lock**. This feature allows you to move a backup vault into a locked state, preventing deletion of backups for a defined retention period, even by administrators. The cross-Region copy functionality then replicates snapshots to a separate AWS Region, creating a geographically isolated, immutable copy.
+
+The simplification occurred in **January 2024** (not 2026 as stated in the question). AWS announced the general availability of **cross-Region copy with Backup Vault Lock**. Previously, setting up this process required more manual configuration and scripting. The update streamlined the process by:
+
+*   **Integrating cross-Region copy directly into the Backup Vault Lock workflow.** You can now configure cross-Region copy *during* the vault lock policy creation.
+*   **Automating the replication process.** AWS Backup handles the ongoing replication of snapshots to the designated Region.
+*   **Reducing operational overhead.** The simplified process minimizes the risk of errors and simplifies management.",2026-03-16T19:29:51.883726+00:00,Incorrect,,,,The model response contains factual errors regarding the year of the change (2024 instead of 2026) and misattributes the primary feature to Backup Vault Lock rather than the single-action copy feature. It also lacks the detail about the two-step process that was simplified.
+5,"Does Amazon Bedrock support structured outputs for foundation models, and how can developers enforce a specific response format?",ChatGPT,gpt-4o-mini,False,"Does Amazon Bedrock support structured outputs for foundation models, and how can developers enforce a specific response format?","Yes, Amazon Bedrock supports structured outputs for foundation models. Developers can enforce a specific response format by utilizing a few strategies:
+
+1. **Prompt Engineering**: Craft the input prompts in a way that outlines the desired structure. For example, specifying a list format, JSON, or specific fields can help guide the model’s response.
+
+2. **Post-Processing**: After receiving a response, developers can implement a post-processing step that validates and transforms the output into the required format.
+
+3. **API Integration**: Depending on the foundation model used, you can leverage specific API features or parameters that encourage structured outputs.
+
+Using these methods, developers can effectively guide the models to produce structured responses.",2026-03-16T19:29:56.693023+00:00,Incorrect,,,,"The response lacks mention of JSON Schema output format and strict tool use as methods for enforcing response format, which are key requirements from the verified answer."
+5,"Does Amazon Bedrock support structured outputs for foundation models, and how can developers enforce a specific response format?",Claude,claude-haiku-4-5,False,"Does Amazon Bedrock support structured outputs for foundation models, and how can developers enforce a specific response format?","# Amazon Bedrock Structured Outputs
+
+Yes, Amazon Bedrock supports structured outputs through the **Converse API** with JSON Schema validation.
+
+## How It Works
+
+Developers can enforce response formats by specifying a JSON Schema in the `toolConfig` parameter:
+
+```python
+response = client.converse(
+    modelId=""anthropic.claude-3-5-sonnet-20241022"",
+    messages=[
+        {
+            ""role"": ""user"",
+            ""content"": ""Extract the person's name and age""
+        }
+    ],
+    toolConfig={
+        ""tools"": [
+            {
+                ""toolUseBlock"": {
+                    ""name"": ""extract_info"",
+                    ""description"": ""Extract structured information"",
+                    ""inputSchema"": {
+                        ""json"": {
+                            ""type"": ""object"",
+                            ""properties"": {
+                                ""name"": {""type"": ""string""},
+                                ""age"": {""type"": ""integer""}
+                            },
+                            ""required"": [""name"", ""age""]
+                        }
+                    }
+                }
+            }
+        ]
+    }
+)
+```
+
+## Key Features
+
+- **JSON Schema validation** - Define required fields, types, and constraints
+- **Model enforcement** - The model is incentivized to follow the schema (though not guaranteed)
+- **Works with Converse API** - Available across supported foundation models
+- **Tool use integration** - Structured outputs are implemented via the tool use mechanism
+
+## Important Limitation
+
+**I should note:** While Bedrock guides models toward schema compliance, enforcement isn't guaranteed. For critical applications requiring strict validation, you should validate the response against your schema and implement retry logic or fallback handling.
+
+Are you looking to use this for a specific use case?",2026-03-16T19:30:01.799935+00:00,Incorrect,,,,"The model response incorrectly states that enforcement is done only via the Converse API while the verified answer mentions a broader mechanism involving 'strict: true' for agentic workflows. Therefore, it misses a key requirement."
+5,"Does Amazon Bedrock support structured outputs for foundation models, and how can developers enforce a specific response format?",Gemma,gemma-3-27b-it,False,"Does Amazon Bedrock support structured outputs for foundation models, and how can developers enforce a specific response format?","Yes, Amazon Bedrock does support structured outputs for foundation models. Developers can enforce a specific response format primarily through **JSON Schema**.
+
+Here's how:
+
+* **JSON Schema Definition:** You define a JSON Schema that specifies the desired structure, data types, and constraints for the model's response.
+* **`response_schema` Parameter:**  You pass this JSON Schema to Bedrock using the `response_schema` parameter in the `invoke-model` API call (or equivalent SDK method).
+* **Model Compliance:** Bedrock attempts to constrain the model's output to conform to the provided schema.  The degree of compliance varies by model; some models are better at adhering to schemas than others.
+* **Post-Processing (if needed):** While Bedrock enforces the schema, you may still need some post-processing on the response to handle edge cases or ensure complete validation, especially with models less strongly aligned to schema constraints.
+
+
+
+It's important to note that schema enforcement is *not* guaranteed to be perfect.  Models can still occasionally deviate, but using JSON Schema significantly increases the likelihood of receiving structured, predictable outputs.",2026-03-16T19:30:07.798020+00:00,Incorrect,,,,"The model response misses a key requirement regarding the option to enable strict tool use (strict: true) which ensures inputs match the defined schema during workflows, and it does not explicitly mention this aspect of structured output enforcement."
+6,"When restoring a database snapshot in Amazon RDS or Aurora, can you now modify the backup retention period and preferred backup window during the restore process?",ChatGPT,gpt-4o-mini,False,"When restoring a database snapshot in Amazon RDS or Aurora, can you now modify the backup retention period and preferred backup window during the restore process?","No, you cannot modify the backup retention period and preferred backup window during the restore process of a database snapshot in Amazon RDS or Aurora. These settings can be configured after the restoration is complete, but they must be specified when creating a new DB instance.",2026-03-16T19:30:10.214917+00:00,Incorrect,,,,"The model response contains a factual error by stating that the settings cannot be modified during the restore process, which contradicts the verified reference."
+6,"When restoring a database snapshot in Amazon RDS or Aurora, can you now modify the backup retention period and preferred backup window during the restore process?",Claude,claude-haiku-4-5,False,"When restoring a database snapshot in Amazon RDS or Aurora, can you now modify the backup retention period and preferred backup window during the restore process?","# RDS/Aurora Snapshot Restore and Backup Settings
+
+**No, you cannot modify the backup retention period and preferred backup window during the snapshot restore process itself.**
+
+When restoring from a snapshot, these settings are inherited from the source database or set to AWS defaults. You must modify them **after** the restore is complete.
+
+## How to handle this:
+
+1. **Restore the snapshot** (backup settings will use defaults or source settings)
+2. **Modify the restored instance** after it's available
+3. **Update the backup settings** in the modification dialog:
+   - Backup retention period
+   - Preferred backup window
+   - Preferred maintenance window
+
+## Why this design:
+
+AWS separates the restore operation from configuration management. The restore process focuses on recreating the database state, while backup policies are applied as separate database parameter/configuration changes.
+
+**Exception note:** You *can* configure these settings for a new database created from scratch during the initial setup wizard, but not during snapshot restore operations specifically.
+
+If this is a workflow you need frequently, consider automating the post-restore modification steps using AWS CLI or Lambda.",2026-03-16T19:30:15.537362+00:00,Incorrect,,,,"The model response contains a factual error; you can modify the backup retention period and preferred backup window during the restore process, as stated in the verified reference."
+6,"When restoring a database snapshot in Amazon RDS or Aurora, can you now modify the backup retention period and preferred backup window during the restore process?",Gemma,gemma-3-27b-it,False,"When restoring a database snapshot in Amazon RDS or Aurora, can you now modify the backup retention period and preferred backup window during the restore process?","No, you cannot modify the backup retention period or preferred backup window *during* the restore process from a database snapshot in Amazon RDS or Aurora. 
+
+These settings are configured on the *new* DB instance you are creating from the snapshot *after* the restore is complete. You modify them as part of the DB instance creation/modification process, not during the snapshot restoration itself.",2026-03-16T19:30:18.912481+00:00,Incorrect,,,,"The model response contains a factual error; you can now modify the backup retention period and preferred backup window during the restore process, which contradicts the verified reference."
+7,"Does AWS IAM Identity Center support multi-Region replication, and what must be configured before replication can be enabled in an additional Region?",ChatGPT,gpt-4o-mini,False,"Does AWS IAM Identity Center support multi-Region replication, and what must be configured before replication can be enabled in an additional Region?","AWS IAM Identity Center (formerly known as AWS Single Sign-On) does not support multi-Region replication out of the box. IAM Identity Center is designed to operate within a single AWS Region, and users and configurations are region-specific.
+
+To set up IAM Identity Center in additional Regions, you need to manually configure it in each desired region. This includes:
+
+1. **Setting up IAM Identity Center in each Region**: You need to enable and configure IAM Identity Center separately in each AWS Region where you want to use it.
+
+2. **User Management**: Decide how you will manage users across regions. If you are using an external identity provider (IdP), that IdP must also be accessible from the regions you are operating in.
+
+3. **Permissions and Roles**: Ensure that the necessary IAM roles and permissions are appropriately defined and set up in each Region.
+
+4. **Applications**: Any applications using IAM Identity Center for SSO will also need to be configured individually in each Region as required.
+
+Always refer to the official AWS documentation for the most current capabilities and configurations based on your specific use case.",2026-03-16T19:30:25.399173+00:00,Incorrect,,,,"The model response incorrectly states that AWS IAM Identity Center does not support multi-Region replication, which is a factual error. The verified reference clearly states that it does support this feature and outlines the prerequisites for enabling it."
+7,"Does AWS IAM Identity Center support multi-Region replication, and what must be configured before replication can be enabled in an additional Region?",Claude,claude-haiku-4-5,False,"Does AWS IAM Identity Center support multi-Region replication, and what must be configured before replication can be enabled in an additional Region?","# AWS IAM Identity Center Multi-Region Replication
+
+## Does it support multi-Region replication?
+
+**No, AWS IAM Identity Center does not support multi-Region replication.**
+
+IAM Identity Center operates as a **single-Region service**. You must select one primary Region where your Identity Center instance is created, and it cannot be replicated to other Regions.
+
+## Key limitations:
+
+- **Single instance per organization** - You can only have one IAM Identity Center instance active in your AWS Organization
+- **One Region only** - That instance exists in a single Region that you specify during setup
+- **No automatic failover** - There is no built-in multi-Region redundancy or failover capability
+- **Not transferable** - You cannot move an existing Identity Center instance to a different Region without deleting and recreating it
+
+## What you can do instead:
+
+If you need Identity Center presence across Regions, your options are:
+1. **Use the single instance** - Applications in all Regions reference the Identity Center in your primary Region
+2. **Create separate instances** - Set up separate Identity Center instances in different AWS Organizations (not recommended for unified identity management)
+3. **Use AWS SSO alternatives** - Consider solutions like AWS Cognito if you need true multi-Region identity distribution
+
+There is no configuration to enable multi-Region replication because the feature doesn't exist in IAM Identity Center.",2026-03-16T19:30:30.342556+00:00,Incorrect,,,,"The model response incorrectly states that AWS IAM Identity Center does not support multi-Region replication, which contradicts the verified reference that confirms the feature exists. Additionally, it misrepresents the configuration requirements for enabling replication."
+7,"Does AWS IAM Identity Center support multi-Region replication, and what must be configured before replication can be enabled in an additional Region?",Gemma,gemma-3-27b-it,False,"Does AWS IAM Identity Center support multi-Region replication, and what must be configured before replication can be enabled in an additional Region?","Yes, AWS IAM Identity Center (formerly AWS SSO) *does* support multi-Region failover. However, it doesn't use traditional ""replication"" in the data sense. Instead, it allows you to deploy Identity Center in multiple AWS Regions for high availability and disaster recovery.
+
+Before enabling Identity Center in an additional Region for failover, you must configure the following:
+
+1. **AWS Organizations:** Identity Center relies on AWS Organizations. You need an AWS Organization configured.
+2. **Primary Region Identity Center:** Identity Center must be fully configured and operational in your primary AWS Region. This includes connecting to your identity provider (IdP) – whether that's Active Directory, Okta, or another SAML 2.0 compatible IdP.
+3. **Secondary Region Identity Center:** Deploy Identity Center in the secondary Region.  This is done through the AWS Management Console or infrastructure-as-code tools.
+4. **Trust Relationship:** Establish a trust relationship *between* the Identity Center instances in the primary and secondary Regions. This is crucial for cross-Region access.  This is handled automatically during the secondary region setup process, linking it to the primary.
+5. **Account Assignments:** Account assignments (which AWS accounts users/groups have access to) need to be replicated or synchronized to the secondary Region.  This is *not* automatic. You must manually re-create the assignments in the secondary region, or use automation to synchronize them.
+6. **Permissions Sets:** Permissions Sets also need to be replicated or synchronized to the secondary Region. Similar to account assignments, this is a manual or automated process.
+7. **Testing:** Thoroughly test the failover process to ensure users can access resources in the secondary Region as expected.
+
+
+
+It's important to note that failover is *not* automatic. You must manually switch the DNS record pointing to your Identity Center URL to the secondary Region's endpoint to initiate failover.",2026-03-16T19:30:39.105485+00:00,Incorrect,,,,"The response misinterprets the concept of multi-Region replication by referring to it as multi-Region failover. It does not mention the requirement of configuring and replicating a customer-managed multi-Region AWS KMS key, which is crucial for enabling replication as per the verified reference answer."
+8,"Which Java runtimes are supported by AWS Lambda, and which one is the latest?",ChatGPT,gpt-4o-mini,False,"Which Java runtimes are supported by AWS Lambda, and which one is the latest?","As of the latest information, AWS Lambda supports the following Java runtimes:
+
+1. **Java 8 (Corretto)**
+2. **Java 11 (Corretto)**
+3. **Java 17 (Corretto)**
+
+The latest supported Java runtime for AWS Lambda is **Java 17 (Corretto)**. Always check the official AWS documentation for the most current and detailed information.",2026-03-16T19:30:42.256047+00:00,Incorrect,,,,"The model response is outdated and incorrect; it lists only three runtimes and incorrectly states that Java 17 is the latest, while the latest is actually Java 25."
+8,"Which Java runtimes are supported by AWS Lambda, and which one is the latest?",Claude,claude-haiku-4-5,False,"Which Java runtimes are supported by AWS Lambda, and which one is the latest?","# AWS Lambda Java Runtimes
+
+## Currently Supported Java Runtimes
+
+AWS Lambda supports the following Java runtimes:
+
+- **java21** (Java 21)
+- **java17** (Java 17)
+- **java11** (Java 11)
+
+## Latest Runtime
+
+**Java 21** (`java21`) is the latest Java runtime supported by AWS Lambda.
+
+## Important Notes
+
+- **java8** and **java8.al2** have reached end-of-life and are no longer supported
+- Java 21 was introduced as a Long-Term Support (LTS) version and provides the latest language features and performance improvements
+- For new projects, Java 21 or Java 17 are recommended, with Java 21 being preferred for accessing the most recent Java features
+
+If you need to verify the current list or check for any updates, you can reference the [AWS Lambda Runtimes documentation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html).",2026-03-16T19:30:45.527806+00:00,Incorrect,,,,"The model response misses the inclusion of Java 25 and incorrectly identifies Java 21 as the latest runtime, whereas Java 25 is the latest supported runtime in AWS Lambda."
+8,"Which Java runtimes are supported by AWS Lambda, and which one is the latest?",Gemma,gemma-3-27b-it,False,"Which Java runtimes are supported by AWS Lambda, and which one is the latest?","AWS Lambda supports the following Java runtimes:
+
+*   **Java 8**
+*   **Java 11**
+*   **Java 17**
+*   **Java 21**
+
+**Java 21** is the latest supported runtime as of today, November 2, 2023.",2026-03-16T19:30:48.788372+00:00,Incorrect,,,,"The model response is outdated as it omits Java 25, which is the latest runtime according to the verified reference."
+9,"What are partitioned CRLs in AWS Private Certificate Authority, and how do they improve scalability for certificate revocation?",ChatGPT,gpt-4o-mini,False,"What are partitioned CRLs in AWS Private Certificate Authority, and how do they improve scalability for certificate revocation?","Partitioned Certificate Revocation Lists (CRLs) in AWS Private Certificate Authority (PCA) enhance scalability by dividing the CRL data into smaller, manageable segments based on specific criteria, such as the number of certificates or their status. Here’s how they improve scalability for certificate revocation:
+
+1. **Reduced Size**: By partitioning CRLs, each individual CRL file is smaller, making it quicker to download and process. This is particularly important for environments where large CRLs could hinder performance.
+
+2. **Targeted Revocation**: Partitioning allows for more targeted revocation checks. Users can fetch only the relevant CRLs for the specific certificate types they are concerned with, rather than downloading a massive, singular list.
+
+3. **Improved Distribution**: Smaller CRLs can be distributed more efficiently across various systems, including load balancers or CDNs, which can help mitigate latency issues when clients check for revocation status.
+
+4. **Flexibility**: Organizations can tailor partitioning strategies based on their certificate issuance patterns, making it easier to manage revocations effectively.
+
+5. **Easier Management**: Maintenance and updates to smaller CRLs are generally simpler, reducing operational overhead and potentially minimizing downtime during updates.
+
+Overall, partitioned CRLs significantly enhance the efficiency of certificate revocation processes in AWS PCA, making it easier for administrators to manage large-scale environments.",2026-03-16T19:30:57.499856+00:00,Incorrect,,,,"The model response contains inaccuracies regarding the scalability improvement figures, stating only that partitioning allows for more manageable segments without specifying the significant increase in revocation capacity from 1 million to 100 million certificates per CA as mentioned in the verified answer."
+9,"What are partitioned CRLs in AWS Private Certificate Authority, and how do they improve scalability for certificate revocation?",Claude,claude-haiku-4-5,False,"What are partitioned CRLs in AWS Private Certificate Authority, and how do they improve scalability for certificate revocation?","# Partitioned CRLs in AWS Private CA
+
+## What They Are
+
+Partitioned CRLs split a single, potentially massive Certificate Revocation List into multiple smaller CRL files, each covering a specific subset of certificates based on a deterministic partitioning scheme (typically serial number ranges).
+
+Instead of one monolithic CRL containing all revoked certificates, you get:
+- **CRL Partition 0** - covers serial numbers in range 0
+- **CRL Partition 1** - covers serial numbers in range 1
+- etc.
+
+## How They Improve Scalability
+
+**Size Reduction Problem Solved:**
+- A single CRL serving thousands of revoked certificates becomes very large, causing:
+  - Slow downloads
+  - High bandwidth usage
+  - Network timeouts
+  - Client processing delays
+
+**With partitioning:**
+- Each partition remains manageable in size
+- Clients download only the partition they need (based on the certificate's serial number)
+- Significantly faster revocation checking
+
+**Performance Benefits:**
+- Reduced CRL download times
+- Lower memory footprint during validation
+- Better handling of large-scale deployments with many revoked certificates
+- Improved OCSP and CRL freshness updates
+
+## Practical Implications
+
+When configured, AWS Private CA:
+- Distributes revoked certificates across multiple partition files
+- Makes partition information available through CRL distribution points
+- Allows clients to fetch only relevant partitions instead of the entire CRL
+
+This is particularly valuable for enterprise deployments with thousands of certificates where revocations are frequent.
+
+**Note:** Partitioned CRL support depends on client-side implementation; not all legacy clients may support them.",2026-03-16T19:31:03.020058+00:00,Correct,,,,"The model response accurately describes partitioned CRLs in AWS Private CA, including their function, benefits for scalability, and practical implications, aligning with the verified reference."
+9,"What are partitioned CRLs in AWS Private Certificate Authority, and how do they improve scalability for certificate revocation?",Gemma,gemma-3-27b-it,False,"What are partitioned CRLs in AWS Private Certificate Authority, and how do they improve scalability for certificate revocation?","Partitioned CRLs in AWS Private CA divide a single Certificate Revocation List (CRL) into multiple, smaller CRLs based on the issuing CA's subject name. 
+
+Here's how they improve scalability for certificate revocation:
+
+* **Reduced CRL Size:** Instead of one massive CRL containing *all* revoked certificates for a CA, you have smaller, more manageable CRLs.
+* **Faster Distribution & Processing:** Smaller CRLs distribute faster and are quicker for clients to download and process during certificate validation. This is crucial for performance, especially with a large number of certificates.
+* **Improved Scalability:**  As the number of revoked certificates grows, partitioned CRLs prevent the single CRL from becoming a bottleneck.  The impact of revocation is distributed across multiple CRLs.
+* **Reduced Impact of Revocation Updates:** Updates to one partition of the CRL don't require redistribution of the entire CRL, further improving efficiency.
+
+
+
+Essentially, partitioned CRLs address the scalability limitations of traditional, monolithic CRLs by breaking them down into logical segments.",2026-03-16T19:31:08.678242+00:00,Incorrect,,,,"The model response correctly describes the concept of partitioned CRLs but misses a key detail: it does not mention the capacity increase from about 1 million to 100 million certificates per CA, which is critical to understanding the scalability improvement."
+10,How many certificates per CA can AWS Private Certificate Authority support when using partitioned CRLs?,ChatGPT,gpt-4o-mini,False,How many certificates per CA can AWS Private Certificate Authority support when using partitioned CRLs?,"AWS Private Certificate Authority supports up to 10,000 certificates per Certificate Authority (CA) when using partitioned Certificate Revocation Lists (CRLs).",2026-03-16T19:31:11.899772+00:00,Incorrect,,,,"The model response contains a meaningful factual error regarding the maximum number of certificates supported per CA, which is stated as 10,000 instead of the correct 100 million."
+10,How many certificates per CA can AWS Private Certificate Authority support when using partitioned CRLs?,Claude,claude-haiku-4-5,False,How many certificates per CA can AWS Private Certificate Authority support when using partitioned CRLs?,"I don't have a specific documented limit for the number of certificates per CA that AWS Private Certificate Authority can support when using partitioned CRLs in my training data.
+
+What I can tell you is that:
+
+1. **AWS Private CA does support partitioned CRLs** - this feature allows CRL distribution across multiple files to manage size and performance.
+
+2. **General AWS Private CA limits** exist for things like the number of CAs per account, but certificate counts per CA are typically not explicitly limited in the same way.
+
+3. **Partitioned CRLs help with scalability** by preventing any single CRL from becoming too large, which means they support higher certificate volumes than non-partitioned CRLs would.
+
+However, I don't want to guess at a specific number. I'd recommend:
+- Checking the [AWS Private Certificate Authority documentation](https://docs.aws.amazon.com/privateca/) for current limits
+- Contacting AWS Support for definitive numbers on this specific configuration
+- Reviewing the service quotas in your AWS account console, which shows current limits
+
+Do you have a specific use case or scale you're trying to validate?",2026-03-16T19:31:16.259862+00:00,Incorrect,,,,"The model response fails to provide the specific limit of 100 million certificates per CA when using partitioned CRLs, which is a key requirement to accurately answer the question."
+10,How many certificates per CA can AWS Private Certificate Authority support when using partitioned CRLs?,Gemma,gemma-3-27b-it,False,How many certificates per CA can AWS Private Certificate Authority support when using partitioned CRLs?,"AWS Private Certificate Authority (PCA) supports **10,000** certificates per Certificate Authority when using partitioned Certificate Revocation Lists (CRLs). 
+
+This is a key limitation to be aware of when designing your PKI with AWS PCA and partitioned CRLs.",2026-03-16T19:31:19.122709+00:00,Incorrect,,,,"The model response contains a factual error regarding the number of certificates supported per CA; it incorrectly states 10,000 instead of the correct 100 million."
+11,"What new capability allows Amazon CloudWatch to unify and manage log data across operational, security, and compliance use cases, and which open standards does it support for log normalization?",ChatGPT,gpt-4o-mini,False,"What new capability allows Amazon CloudWatch to unify and manage log data across operational, security, and compliance use cases, and which open standards does it support for log normalization?","Amazon CloudWatch introduced **CloudWatch Logs Insights**, which allows for unified management and analysis of log data across operational, security, and compliance use cases. For log normalization, it supports open standards such as **JSON** and **Common Event Format (CEF)**. This capability enables users to search, analyze, and visualize log data effectively.",2026-03-16T19:31:22.782024+00:00,Incorrect,,,,The model response incorrectly identifies CloudWatch Logs Insights as the unified capability and cites unsupported log formats instead of the correct open standards (OCSF and OpenTelemetry).
+11,"What new capability allows Amazon CloudWatch to unify and manage log data across operational, security, and compliance use cases, and which open standards does it support for log normalization?",Claude,claude-haiku-4-5,False,"What new capability allows Amazon CloudWatch to unify and manage log data across operational, security, and compliance use cases, and which open standards does it support for log normalization?","# CloudWatch Logs Unified Query and Log Normalization
+
+Based on current AWS CloudWatch capabilities, the key feature that enables unified log management across operational, security, and compliance use cases is **CloudWatch Logs Insights** combined with **CloudWatch Logs unified query capabilities**.
+
+## Open Standards Support
+
+CloudWatch supports **OpenTelemetry** as an open standard for log normalization and correlation across different sources and formats. This allows:
+
+- Standardized instrumentation of applications
+- Vendor-neutral log collection and processing
+- Better interoperability across tools and platforms
+
+## Related Capabilities
+
+CloudWatch also integrates with:
+- **CloudWatch Container Insights** - for container/Kubernetes operational logs
+- **CloudWatch Application Insights** - for application monitoring across compliance and operational scenarios
+- **Log Groups organization** - allowing centralized management across different use cases
+
+## Caveat
+
+I should note that AWS CloudWatch's log normalization features are still evolving. If you're referring to a very recent announcement (released after April 2024), I may not have complete details. I'd recommend checking:
+- AWS CloudWatch documentation
+- AWS re:Invent announcements
+- AWS blog for the latest capabilities
+
+Could you clarify if you're referring to a specific recent launch or feature announcement?",2026-03-16T19:31:27.160227+00:00,Incorrect,,,,"The response incorrectly identifies CloudWatch Logs Insights and its unified query capabilities as the new feature instead of the unified data management and analytics capability mentioned in the reference. It also omits the Open Cybersecurity Schema Framework (OCSF) as a supported standard for log normalization, focusing only on OpenTelemetry, which is a critical oversight of a key requirement."
+11,"What new capability allows Amazon CloudWatch to unify and manage log data across operational, security, and compliance use cases, and which open standards does it support for log normalization?",Gemma,gemma-3-27b-it,False,"What new capability allows Amazon CloudWatch to unify and manage log data across operational, security, and compliance use cases, and which open standards does it support for log normalization?","The new capability is **CloudWatch Unified Log Experience**.
+
+It supports the following open standards for log normalization:
+
+*   **Common Event Format (CEF)**
+*   **Syslog**
+*   **JSON**",2026-03-16T19:31:29.643134+00:00,Incorrect,,,,"The response incorrectly identifies the capability and mentions outdated or incorrect standards for log normalization instead of the correct ones, OCSF and OpenTelemetry."
+12,What optimization actions can AWS Compute Optimizer automatically perform on Amazon EBS volumes using automation rules?,ChatGPT,gpt-4o-mini,False,What optimization actions can AWS Compute Optimizer automatically perform on Amazon EBS volumes using automation rules?,"AWS Compute Optimizer can automatically perform optimization actions on Amazon EBS (Elastic Block Store) volumes by using specific automation rules. These actions typically include:
+
+1. **Modifying Volume Type**: Compute Optimizer can recommend changing the volume type (e.g., from GP2 to GP3) based on your workload performance and cost efficiency.
+
+2. **Right-Sizing Recommendations**: It can suggest resizing EBS volumes. If a volume is underutilized, it can recommend downsizing to reduce costs.
+
+3. **Deleting Unused Volumes**: Compute Optimizer can identify and automate the deletion of unattached EBS volumes that are not being used, thereby reducing unnecessary charges.
+
+4. **Snapshot Recommendations**: While not an automatic action, it can suggest creating snapshots for backup and recovery based on usage patterns.
+
+These actions are aimed at enhancing performance and cost-effectiveness for your EBS volumes. It’s important to review recommendations before applying them to ensure they align with your application requirements.",2026-03-16T19:31:35.211595+00:00,Incorrect,,,,"The response mentions right-sizing recommendations and snapshot recommendations, which are not stated as automatic actions by AWS Compute Optimizer. The verified reference specifically highlights snapshotting and deleting unattached volumes, along with upgrading EBS types, which the model response fails to include as automatic actions."
+12,What optimization actions can AWS Compute Optimizer automatically perform on Amazon EBS volumes using automation rules?,Claude,claude-haiku-4-5,False,What optimization actions can AWS Compute Optimizer automatically perform on Amazon EBS volumes using automation rules?,"# AWS Compute Optimizer - EBS Automation Actions
+
+AWS Compute Optimizer can automatically perform the following optimization actions on EBS volumes when automation rules are configured:
+
+## Primary Optimization Actions
+
+1. **Volume Type Changes**
+   - Migrate between volume types (e.g., gp2 → gp3, io1 → io2)
+   - Based on performance requirements and cost optimization
+
+2. **Volume Size Adjustments**
+   - Increase or decrease volume size
+   - Aligned with actual usage patterns
+
+3. **IOPS Configuration**
+   - Modify IOPS settings for io1, io2, and gp3 volumes
+   - Adjust to match workload demands
+
+4. **Throughput Configuration**
+   - Modify throughput settings for gp3 volumes
+   - Optimize for specific I/O requirements
+
+## How Automation Works
+
+- **Automation Rules**: You define rules that trigger automatic implementation of recommendations
+- **Safe Execution**: Changes are applied based on thresholds and conditions you set
+- **Monitoring-Based**: Recommendations derive from CloudWatch metrics analysis
+
+## Important Considerations
+
+- Not all optimization actions can be fully automated; some may require manual approval
+- Automation respects your defined approval settings
+- Changes typically don't cause downtime for properly configured volumes, but attached instances may experience brief I/O interruptions
+
+**Note:** The specific automation capabilities can vary by AWS region and may be updated. I'd recommend checking the current AWS documentation for the most up-to-date automation capabilities available in your region.",2026-03-16T19:31:39.805583+00:00,Incorrect,,,,"The model response includes outdated and incorrect actions. AWS Compute Optimizer does not automatically adjust volume sizes or IOPS configurations; it specifically automates snapshotting, deleting unattached volumes, and upgrading volume types as per the verified reference answer."
+12,What optimization actions can AWS Compute Optimizer automatically perform on Amazon EBS volumes using automation rules?,Gemma,gemma-3-27b-it,False,What optimization actions can AWS Compute Optimizer automatically perform on Amazon EBS volumes using automation rules?,"AWS Compute Optimizer can automatically perform the following optimization actions on Amazon EBS volumes using automation rules:
+
+* **Change volume type:** It can switch volumes to a more cost-effective EBS volume type (e.g., from gp3 to gp2, or io2 to io1) based on performance analysis.
+* **Change volume size:** It can resize volumes – both increasing *and* decreasing – based on utilization data.  Decreasing size is a key cost saving action.
+* **Delete unused/orphaned volumes:** It can identify and delete EBS volumes that are no longer attached to an EC2 instance.
+
+
+
+It's important to note that these actions are performed via automation rules *you* define after Compute Optimizer provides recommendations. Compute Optimizer *recommends* the changes; the automation rules *apply* them.",2026-03-16T19:31:44.523721+00:00,Incorrect,,,,"The response contains factual errors regarding the change volume type actions and the ability to resize volumes. AWS Compute Optimizer only upgrades from gp2 to gp3 and io1 to io2, not the other way around, and it does not automate resizing volumes."
+13,What new feature in AWS Control Tower allows customers to use AWS managed controls without deploying a full landing zone?,ChatGPT,gpt-4o-mini,False,What new feature in AWS Control Tower allows customers to use AWS managed controls without deploying a full landing zone?,"The new feature in AWS Control Tower that allows customers to use AWS managed controls without deploying a full landing zone is called **""Control Tower Guardrails in AWS Organizations.""** This feature enables customers to apply specific guardrails across their AWS accounts managed by AWS Organizations, providing governance and compliance capabilities without the need to set up a complete Control Tower landing zone.",2026-03-16T19:31:47.188590+00:00,Incorrect,,,,The model response incorrectly identifies the feature as 'Control Tower Guardrails in AWS Organizations' instead of the correct feature 'Controls Dedicated experience'. This is a factual error.
+13,What new feature in AWS Control Tower allows customers to use AWS managed controls without deploying a full landing zone?,Claude,claude-haiku-4-5,False,What new feature in AWS Control Tower allows customers to use AWS managed controls without deploying a full landing zone?,"I'm not certain about a specific new feature in AWS Control Tower that allows using AWS managed controls without deploying a full landing zone.
+
+As of my last training data, AWS Control Tower primarily operates through the landing zone framework, which establishes a baseline multi-account AWS environment. While Control Tower has evolved with features like:
+
+- AWS managed controls (preventive and detective controls)
+- Customizable controls
+- Lightweight onboarding options
+
+I'm not aware of a specific feature that decouples AWS managed controls from the landing zone deployment entirely.
+
+If this is a recent announcement or feature, I may not have it in my training data. I'd recommend checking:
+- AWS Control Tower documentation
+- Recent AWS announcements
+- AWS re:Invent materials from the latest event
+
+Could you provide more context about when this feature was announced, or are you testing whether I'll accurately acknowledge uncertainty?",2026-03-16T19:31:50.440218+00:00,Incorrect,,,,"The model response fails to mention the Controls Dedicated experience, which is crucial to answer the question accurately. It suggests uncertainty and does not reflect the updated information regarding this new feature in AWS Control Tower."
+13,What new feature in AWS Control Tower allows customers to use AWS managed controls without deploying a full landing zone?,Gemma,gemma-3-27b-it,False,What new feature in AWS Control Tower allows customers to use AWS managed controls without deploying a full landing zone?,"The new feature is **Control Tower Modular Control Blocks (MCBs)**. 
+
+MCBs allow customers to adopt individual AWS-managed controls – like security, compliance, and operational best practices – *without* needing to deploy a full, pre-defined Control Tower landing zone. You can selectively enable these blocks to augment existing environments or build custom landing zones incrementally.",2026-03-16T19:31:53.361661+00:00,Incorrect,,,,"The response contains a factual error by referencing Modular Control Blocks instead of the Controls Dedicated experience, which is the correct term for the new feature in AWS Control Tower."
+14,"How does AWS Organizations Multi-party Approval support proactive approval team health management, and how often does AWS recommend running baseline tests?",ChatGPT,gpt-4o-mini,False,"How does AWS Organizations Multi-party Approval support proactive approval team health management, and how often does AWS recommend running baseline tests?","AWS Organizations' Multi-party Approval feature enables organizations to manage permissions and approvals across multiple stakeholders before certain actions, such as resource deployments or configuration changes, can be completed. This proactive approach helps in maintaining a healthy approval process, as it encourages collaboration among teams and ensures that changes are reviewed by the appropriate parties. 
+
+In terms of baseline tests, AWS recommends running these tests regularly, but specific frequency can vary based on the organization's needs and compliance requirements. A common practice is to conduct these tests at least quarterly or after significant changes, but organizations should tailor the schedule according to their own operational cadence and risk management strategies.",2026-03-16T19:31:57.042332+00:00,Incorrect,,,,"The response does not specify the recommended frequency of running baseline tests as every 90 days, which is a key requirement from the verified answer."
+14,"How does AWS Organizations Multi-party Approval support proactive approval team health management, and how often does AWS recommend running baseline tests?",Claude,claude-haiku-4-5,False,"How does AWS Organizations Multi-party Approval support proactive approval team health management, and how often does AWS recommend running baseline tests?","I appreciate the direct question, but I need to be honest: **I'm not aware of an AWS Organizations feature specifically called ""Multi-party Approval"" with built-in ""proactive approval team health management"" capabilities.**
+
+Let me clarify what actually exists in AWS Organizations:
+
+## What AWS Organizations Does Provide:
+
+1. **Service Control Policies (SCPs)** - Can enforce approval workflows at the organizational level
+2. **AWS Config** - Can monitor compliance and policy adherence
+3. **CloudTrail** - Audits API calls and approvals
+4. **AWS Approvals** (in some contexts like CodePipeline) - For multi-stage approvals in deployment pipelines
+
+## What I Cannot Confirm:
+
+- A specific ""proactive approval team health management"" feature within Organizations
+- AWS's recommended baseline test frequency for this (because I'm uncertain it exists as described)
+
+## My Recommendation:
+
+If you're evaluating or implementing multi-party approval workflows in AWS:
+
+1. **Check AWS Organizations documentation** for the latest features (these evolve)
+2. **For deployment approvals**: AWS CodePipeline does support multi-stage approvals - baseline testing is typically recommended per sprint or release cycle, not on a fixed AWS-recommended schedule
+3. **For general best practices**: AWS generally recommends testing after any infrastructure changes
+
+Could you provide more context about where you encountered this terminology? That would help me give you a more accurate answer about what specific service or feature you're evaluating.",2026-03-16T19:32:01.825088+00:00,Incorrect,,,,"The model response incorrectly claims that there is no feature called 'Multi-party Approval' in AWS Organizations, which contradicts the verified answer. It also fails to mention the recommended frequency for baseline tests, clearly stated as every 90 days in the verified reference."
+14,"How does AWS Organizations Multi-party Approval support proactive approval team health management, and how often does AWS recommend running baseline tests?",Gemma,gemma-3-27b-it,False,"How does AWS Organizations Multi-party Approval support proactive approval team health management, and how often does AWS recommend running baseline tests?","AWS Organizations Multi-party Approval (MPA) supports proactive approval team health management in a few key ways:
+
+* **Defined Roles & Responsibilities:** MPA forces clear ownership of approval workflows. You designate approvers (and backups) for specific actions, making it explicit *who* is responsible for reviewing changes.
+* **Auditability & Accountability:** All approval requests and decisions are logged in CloudTrail. This provides a clear audit trail of who approved what, and when, fostering accountability.
+* **Reduced Single Points of Failure:**  The ability to designate multiple approvers, and *required* backups, mitigates risk associated with individual approver unavailability (vacation, turnover, etc.).  This is core to health management.
+* **Workflow Visibility:**  The MPA console provides a central view of pending and completed approval requests, allowing administrators to monitor workflow health and identify potential bottlenecks.
+
+Regarding baseline tests, AWS recommends running them **at least quarterly**, but **more frequently (monthly or even weekly) is encouraged, especially after changes to your MPA configurations or organizational structure.** 
+
+These tests should verify:
+
+* **Approver Lists are Current:** Ensure designated approvers still have the necessary permissions and are active.
+* **Backup Approvers are Valid:** Confirm backups are still appropriate and aware of their responsibilities.
+* **Approval Policies are Functioning as Expected:**  Test scenarios to confirm policies are correctly triggering approval requests for the intended actions.
+* **Notification Channels are Working:** Verify approvers are receiving notifications for pending requests.
+
+
+
+You can find more details in the AWS documentation: [https://docs.aws.amazon.com/organizations/latest/userguide/orgs_mpa_best-practices.html](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_mpa_best-practices.html)",2026-03-16T19:32:10.281747+00:00,Incorrect,,,,"The model response introduces outdated and incorrect recommendations regarding the frequency of baseline tests. It states that tests should be run at least quarterly and suggests more frequent tests, whereas the verified reference specifies that AWS recommends performing baseline tests every 90 days."
+15,"After the release of Redshift introducing new array functions for semi-structured data processing, is array_sort deterministic for complex SUPER elements (objects/structs), and if so, what ordering rules does it apply?",ChatGPT,gpt-4o-mini,False,"After the release of Redshift introducing new array functions for semi-structured data processing, is array_sort deterministic for complex SUPER elements (objects/structs), and if so, what ordering rules does it apply?","Yes, the `array_sort` function in Amazon Redshift is deterministic for complex SUPER elements (like structs or objects). When sorting these complex data types, the ordering is determined based on the lexicographical order of the individual fields.
+
+The following ordering rules apply:
+
+1. **Field Order**: Fields in the structs or objects are compared in the order they are defined.
+2. **Data Type Comparison**: The sorting takes into account the data types of the fields (e.g., number, string) according to their type precedence.
+3. **Null Values**: Null values are typically considered to be less than any non-null value, affecting the overall sort order.
+
+Thus, when you sort an array of complex SUPER elements, Redshift will compare the fields one by one in the given order until it finds a difference, determining the overall order.",2026-03-16T19:32:15.258838+00:00,Incorrect,,,,"The model response misrepresents the ordering rules for complex SUPER elements, particularly by stating that the order is determined solely by the lexicographical order of the fields, which is not accurate. It also does not adequately cover how the sorting logic applies to nested arrays or objects, leading to an incomplete answer."
+15,"After the release of Redshift introducing new array functions for semi-structured data processing, is array_sort deterministic for complex SUPER elements (objects/structs), and if so, what ordering rules does it apply?",Claude,claude-haiku-4-5,False,"After the release of Redshift introducing new array functions for semi-structured data processing, is array_sort deterministic for complex SUPER elements (objects/structs), and if so, what ordering rules does it apply?","I'm not certain about the specific behavior of `array_sort` with complex SUPER elements (objects/structs) in Redshift, and I want to be direct about that limitation.
+
+Here's what I can tell you with confidence:
+
+1. **SUPER data type and array functions**: Redshift does support SUPER for semi-structured data and has array manipulation functions, but the detailed ordering semantics for complex types aren't something I can reliably specify from memory.
+
+2. **What I'm uncertain about**:
+   - Whether `array_sort` is deterministic when applied to arrays of SUPER objects/structs
+   - What specific ordering rules would apply to non-scalar SUPER elements
+   - Whether the behavior changed in recent releases
+
+3. **What would help clarify this**:
+   - Checking the official AWS Redshift documentation for the specific release notes and function documentation
+   - Testing empirically in your environment (arrays of objects may not be sortable, or may require explicit comparison logic)
+   - Looking at whether Redshift requires a comparator function or lambda for complex types, as some systems do
+
+**My recommendation**: Rather than relying on my uncertain answer, I'd suggest verifying this directly in the [AWS Redshift SQL function documentation](https://docs.aws.amazon.com/redshift/latest/dg/) for your specific version, or testing with sample data in your cluster to confirm the behavior.
+
+If you have access to specific documentation or release notes you're referencing, I'd be happy to help interpret them more precisely.",2026-03-16T19:32:20.351302+00:00,Incorrect,,,,"The model response indicates uncertainty about whether `array_sort` is deterministic for complex SUPER elements, contradicting the verified reference which states it is deterministic. It fails to provide specific ordering rules, missing key information necessary to answer the question."
+15,"After the release of Redshift introducing new array functions for semi-structured data processing, is array_sort deterministic for complex SUPER elements (objects/structs), and if so, what ordering rules does it apply?",Gemma,gemma-3-27b-it,False,"After the release of Redshift introducing new array functions for semi-structured data processing, is array_sort deterministic for complex SUPER elements (objects/structs), and if so, what ordering rules does it apply?","No, `array_sort` is **not** deterministic for complex SUPER elements (objects/structs) in Redshift, even after the release of new array functions. 
+
+While `array_sort` *is* deterministic for simple data types (integers, decimals, strings, dates), when applied to arrays of SUPERs, the ordering is not guaranteed to be consistent across executions. This is due to the internal representation and lack of a defined, stable ordering for complex data structures.
+
+Specifically:
+
+*   **No Defined Ordering:** Redshift does not define a specific ordering for the keys within a SUPER element.
+*   **Implementation Dependent:** The order in which keys are processed within a SUPER can be implementation-dependent and may change.
+*   **Hash-Based Comparison:** The comparison used by `array_sort` on SUPERs relies on hashing, which doesn't guarantee a stable sort order.
+
+Therefore, you should **not** rely on `array_sort` to produce consistent results when sorting arrays of complex SUPER elements. If deterministic sorting is required, you'll need to explicitly define a sorting key based on specific fields within the SUPER and use that for comparison.",2026-03-16T19:32:27.164900+00:00,Incorrect,,,,"The model response incorrectly asserts that ARRAY_SORT is not deterministic for complex SUPER elements, contradicting the verified reference which confirms it is deterministic."
+16,"What are the functionality and differences between multiple resource configs such as AWS::DataBrew::Dataset, ,AWS::DataBrew::Job, AWS::DataBrew::Recipe, AWS::DataBrew::Ruleset?",ChatGPT,gpt-4o-mini,False,"What are the functionality and differences between multiple resource configs such as AWS::DataBrew::Dataset, ,AWS::DataBrew::Job, AWS::DataBrew::Recipe, AWS::DataBrew::Ruleset?","AWS DataBrew is a service that allows you to visually clean and normalize data without writing code. Here’s a breakdown of the functionalities and differences between the various AWS CloudFormation resource types related to DataBrew:
+
+1. **AWS::DataBrew::Dataset**:
+   - **Functionality**: Represents a dataset in DataBrew. You can create datasets from various data sources such as Amazon S3, Amazon RDS, and AWS Glue data catalogs.
+   - **Use**: It is used as a source for jobs and recipes, enabling you to define the structure and schema of data that will be analyzed and transformed.
+
+2. **AWS::DataBrew::Job**:
+   - **Functionality**: Represents a DataBrew job that processes data according to a specified recipe. It can be scheduled or run on-demand.
+   - **Use**: Utilized to automate the data transformation process based on the steps defined in a recipe, producing clean data outputs typically into a specified S3 bucket.
+
+3. **AWS::DataBrew::Recipe**:
+   - **Functionality**: Contains a collection of data transformation steps. Recipes detail how the dataset should be transformed, including cleaning, enrichment, and normalization methods.
+   - **Use**: Act as templates for data processing jobs, allowing users to define transformations that can be reused across different datasets.
+
+4. **AWS::DataBrew::Ruleset**:
+   - **Functionality**: Represents a set of rules that evaluate the quality of the data. Rules can check for things like data completeness, uniqueness, and consistency.
+   - **Use**: Employed to validate datasets against specified criteria, helping in data profiling and ensuring data quality before further processing.
+
+### Summary of Differences:
+- **Dataset**: Defines data structure and sources.
+- **Job**: Executes data transformation based on a recipe.
+- **Recipe**: Contains the transformation logic for data processing.
+- **Ruleset**: Evaluates and ensures data quality.
+
+These components work together to facilitate a streamlined data preparation process in AWS DataBrew.",2026-03-16T19:32:35.843002+00:00,Incorrect,,,,"The model response inaccurately describes the AWS::DataBrew::Dataset as representing a dataset, while it actually defines metadata about where the data is located. Additionally, it implies that datasets can be created from Amazon RDS, which is not in the verified answer. The use descriptions are either vague or miss key aspects of the functionalities compared to the provided verified reference."
+16,"What are the functionality and differences between multiple resource configs such as AWS::DataBrew::Dataset, ,AWS::DataBrew::Job, AWS::DataBrew::Recipe, AWS::DataBrew::Ruleset?",Claude,claude-haiku-4-5,False,"What are the functionality and differences between multiple resource configs such as AWS::DataBrew::Dataset, ,AWS::DataBrew::Job, AWS::DataBrew::Recipe, AWS::DataBrew::Ruleset?","# AWS DataBrew CloudFormation Resources
+
+## Overview
+These are four core DataBrew resources that work together in a data preparation pipeline:
+
+## 1. **AWS::DataBrew::Dataset**
+- **Functionality**: Defines the data source and connection details
+- **Key aspects**:
+  - Points to raw data (S3, data warehouses, databases)
+  - Stores connection information and data format metadata
+  - Can sample data for preview
+  - Foundation for all other DataBrew operations
+- **Use case**: ""Where is my data?""
+
+## 2. **AWS::DataBrew::Recipe**
+- **Functionality**: Contains data transformation rules and steps
+- **Key aspects**:
+  - Reusable collection of transformation operations
+  - Includes cleaning, filtering, deriving new columns, etc.
+  - Version-controlled and shareable across jobs
+  - Can be created interactively or via CloudFormation
+- **Use case**: ""How do I transform my data?""
+
+## 3. **AWS::DataBrew::Job**
+- **Functionality**: Orchestrates actual data processing execution
+- **Key aspects**:
+  - Applies a Recipe to a Dataset
+  - Defines compute resources and output location
+  - Can run on schedule or on-demand
+  - Produces the cleaned/transformed dataset
+- **Use case**: ""When and how do I run the transformations?""
+
+## 4. **AWS::DataBrew::Ruleset**
+- **Functionality**: Defines data quality rules and validation criteria
+- **Key aspects**:
+  - Checks for data quality issues (missing values, outliers, etc.)
+  - Can be applied during or after Job execution
+  - Generates quality reports
+  - Helps identify data anomalies
+- **Use case**: ""Is my data valid and complete?""
+
+## Relationship Diagram
+```
+Dataset → Recipe → Job (outputs transformed data)
+                ↓
+            Ruleset (validates quality)
+```
+
+## Key Differences Summary
+
+| Aspect | Dataset | Recipe | Job | Ruleset |
+|--------|---------|--------|-----|---------|
+| **Purpose** | Data source definition | Transformation logic | Execution engine | Quality validation |
+| **Reusable** | Yes | Yes | Yes | Yes |
+| **Requires** | Connection info | Dataset structure | Dataset + Recipe | Job outputs |
+| **Output** | Metadata/samples | Transformation steps | Processed data | Quality report |
+
+**Is there a specific aspect of these resources you'd like me to clarify further?**",2026-03-16T19:32:41.945630+00:00,Correct,,,,"The model response accurately outlines the functionality and relationships of the AWS DataBrew resources, matching the verified answer's details without introducing errors or outdated information."
+16,"What are the functionality and differences between multiple resource configs such as AWS::DataBrew::Dataset, ,AWS::DataBrew::Job, AWS::DataBrew::Recipe, AWS::DataBrew::Ruleset?",Gemma,gemma-3-27b-it,False,"What are the functionality and differences between multiple resource configs such as AWS::DataBrew::Dataset, ,AWS::DataBrew::Job, AWS::DataBrew::Recipe, AWS::DataBrew::Ruleset?","Here's a breakdown of the functionality and differences between those AWS DataBrew resources:
+
+*   **`AWS::DataBrew::Dataset`**:
+    *   **Functionality:** Represents a collection of data that DataBrew can process. It defines the *source* and *target* of your data.  This could be data in S3, a database (via JDBC), or a DataBrew project.  Datasets don't *contain* the data itself, but rather *point to* where the data is located.
+    *   **Key Attributes:**  Source type (S3 path, JDBC connection), format (CSV, JSON, etc.), and potentially schema information.
+
+*   **`AWS::DataBrew::Job`**:
+    *   **Functionality:** Defines a *single execution* of a DataBrew recipe on a dataset. It's the actual process that transforms your data.  Jobs are scheduled or run on-demand.
+    *   **Key Attributes:**  Recipe ARN, dataset name, output location (S3 path), role ARN (permissions), and execution parameters.  A job *uses* a recipe and operates on a dataset.
+
+*   **`AWS::DataBrew::Recipe`**:
+    *   **Functionality:**  A recipe is a sequence of *transformations* that you apply to your data. It's the blueprint for how DataBrew should clean, normalize, and prepare your data. Recipes are defined visually in the DataBrew console or via API.
+    *   **Key Attributes:**  Recipe steps (e.g., filter, rename column, calculate new column), step order, and recipe version. Recipes are reusable.
+
+*   **`AWS::DataBrew::Ruleset`**:
+    *   **Functionality:** Defines a set of data quality rules to validate your data.  Rulesets are used to check for things like data type consistency, valid ranges, completeness, and uniqueness.  They help ensure data accuracy and reliability.
+    *   **Key Attributes:** Rules (each with a check and a threshold), target datasets, and a schedule for running the rules.
+
+
+
+**Key Differences Summarized:**
+
+| Resource        | Purpose                      | What it *is*          | Operates *on* |
+|-----------------|------------------------------|-----------------------|---------------|
+| `Dataset`       | Data source/target           | A data reference      | Data          |
+| `Job`           | Data transformation execution | A single run          | Dataset, Recipe |
+| `Recipe`        | Transformation logic         | A set of steps        | Dataset       |
+| `Ruleset`       | Data quality validation      | A set of data checks | Dataset       |
+
+In essence: You define a **Dataset** to point to your data. You create a **Recipe** to define *how* to transform that data. You create a **Job** to *execute* the recipe on the dataset.  And you create a **Ruleset** to *validate* the data.",2026-03-16T19:32:54.673293+00:00,Incorrect,,,,"The response contains inaccuracies regarding the definitions and functionalities. Specifically, it mentions that `AWS::DataBrew::Dataset` can reference a database via JDBC, which is not accurate. Additionally, it lacks specific mention of certain functionalities and operational details which are crucial, such as the use of the Data Catalog for the Dataset functionality and the execution parameters of the Job. The description of the Job also does not emphasize its role in executing both recipes and data profiling, which is essential according to the verified reference."
+17,"In AWS Lightsail OpenClaw, what happens to paired browser sessions when a gateway token is rotated, and where are messaging channel credentials stored on the instance?",ChatGPT,gpt-4o-mini,False,"In AWS Lightsail OpenClaw, what happens to paired browser sessions when a gateway token is rotated, and where are messaging channel credentials stored on the instance?","In AWS Lightsail with OpenClaw, when a gateway token is rotated, any paired browser sessions that are authenticated with the old token will no longer be valid. Users will need to re-authenticate with the new token to continue their sessions. This ensures security by preventing access with outdated credentials.
+
+As for the messaging channel credentials, they are typically stored in configuration files or environment variables on the instance itself. This storage mechanism can vary based on the implementation, but it's common to use secure methods, such as encrypted storage or AWS Secrets Manager, to keep these credentials safe. Always refer to the specific OpenClaw documentation or your instance configuration for exact details.",2026-03-16T19:32:59.030977+00:00,Incorrect,,,,"The model response correctly describes the impact of rotating the gateway token on browser sessions, but it incorrectly states that messaging channel credentials can be stored in configuration files. The verified answer specifies that they should be stored in the instance’s environment file, not hardcoded in configuration files."
+17,"In AWS Lightsail OpenClaw, what happens to paired browser sessions when a gateway token is rotated, and where are messaging channel credentials stored on the instance?",Claude,claude-haiku-4-5,False,"In AWS Lightsail OpenClaw, what happens to paired browser sessions when a gateway token is rotated, and where are messaging channel credentials stored on the instance?","I don't have reliable information about AWS Lightsail ""OpenClaw"" or its specific behaviors around gateway token rotation and browser session pairing.
+
+I should be direct: I'm not confident this is a standard AWS Lightsail feature or component that I can accurately describe. It's possible that:
+
+1. This might be an internal AWS codename or specialized tool I'm not familiar with
+2. It could be a third-party tool used with Lightsail
+3. The terminology might differ from standard AWS documentation
+
+**What I'd recommend:**
+
+- Check the official AWS Lightsail documentation
+- Consult your organization's internal documentation if this is proprietary tooling
+- Contact AWS Support directly for questions about non-standard components
+
+If you can provide more context about what OpenClaw is or what you're trying to accomplish, I'd be happy to help with the underlying AWS concepts or architecture questions.",2026-03-16T19:33:03.239002+00:00,Incorrect,,,,"The model response does not address the question at all and avoids providing any relevant information regarding browser sessions and credential storage, which are key parts of the query."
+17,"In AWS Lightsail OpenClaw, what happens to paired browser sessions when a gateway token is rotated, and where are messaging channel credentials stored on the instance?",Gemma,gemma-3-27b-it,False,"In AWS Lightsail OpenClaw, what happens to paired browser sessions when a gateway token is rotated, and where are messaging channel credentials stored on the instance?","Okay, here's the answer regarding AWS Lightsail OpenClaw, gateway token rotation, and messaging channel credentials:
+
+**Gateway Token Rotation & Paired Browser Sessions:**
+
+When a gateway token is rotated in Lightsail OpenClaw, **existing paired browser sessions are invalidated.**  The browser will be disconnected from the OpenClaw instance and will need to be re-paired using a new gateway token.  Essentially, the old token becomes unusable, forcing a new authentication/pairing process. This is a security measure to ensure that compromised tokens cannot be used to maintain access.
+
+**Messaging Channel Credentials Storage:**
+
+Messaging channel credentials (specifically, the credentials used for communication between the OpenClaw instance and the browser via WebSockets) are stored in **AWS Secrets Manager**. 
+
+Specifically:
+
+*   OpenClaw stores the WebSocket credentials (API key and secret) in Secrets Manager.
+*   The OpenClaw instance retrieves these credentials from Secrets Manager during startup and keeps them in memory for use during browser session communication.
+
+
+
+I'm confident in this information based on the OpenClaw documentation and architecture.",2026-03-16T19:33:09.407773+00:00,Incorrect,,,,"The model response correctly describes the impact of gateway token rotation on browser sessions, but it incorrectly states that messaging channel credentials are stored in AWS Secrets Manager instead of the instance's environment file as specified in the verified reference."
+18,What conditions cause an AWS NAT Gateway to be flagged as inactive by Trusted Advisor?,ChatGPT,gpt-4o-mini,False,What conditions cause an AWS NAT Gateway to be flagged as inactive by Trusted Advisor?,"An AWS NAT Gateway can be flagged as inactive by Trusted Advisor under the following conditions:
+
+1. **No Active Connections**: If the NAT Gateway has not processed any data or traffic for a certain period, it may be flagged as inactive.
+
+2. **Unused Subnets**: If the NAT Gateway is in a subnet that is not associated with any active instances or resources that require internet access, it can be considered inactive.
+
+3. **Long Time Since Last Activity**: Trusted Advisor monitors for periods of inactivity; if a NAT Gateway has not been used in many days or weeks, it may be flagged.
+
+4. **Deletion of Dependencies**: If resources relying on the NAT Gateway, such as EC2 instances in private subnets, have been terminated or are not using the NAT Gateway, this can lead to inactivity.
+
+To resolve this and ensure the NAT Gateway is active, you can check if it has correct routing and is being utilized by your instances needing internet access.",2026-03-16T19:33:17.462006+00:00,Incorrect,,,,"The model response includes conditions not specified in the verified reference, such as 'No Active Connections' and 'Unused Subnets,' which are inaccurate. The verified answer specifically mentions the lack of CloudWatch activity over a 32-day period and the absence of association with route tables, which are key and more precise criteria for being flagged as inactive."
+18,What conditions cause an AWS NAT Gateway to be flagged as inactive by Trusted Advisor?,Claude,claude-haiku-4-5,False,What conditions cause an AWS NAT Gateway to be flagged as inactive by Trusted Advisor?,"# AWS NAT Gateway Inactive Status in Trusted Advisor
+
+Trusted Advisor flags a NAT Gateway as **inactive** when it has:
+
+## Primary Condition
+- **No data processed in the last 7 days** - If a NAT Gateway hasn't passed any traffic during this period, it's considered unused
+
+## Related Factors
+This typically occurs when:
+- No EC2 instances in private subnets are routing traffic through it
+- The route table pointing to the NAT Gateway isn't actually being used
+- All associated resources have been terminated or reconfigured
+
+## Why This Matters
+Trusted Advisor highlights inactive NAT Gateways because:
+- They incur hourly charges (~$0.045/hour) even when unused
+- They represent potential cost optimization opportunities
+- Removing unused gateways can reduce AWS bills
+
+## Important Note
+This is a **cost optimization check**, not a reliability or performance issue. An inactive NAT Gateway functions normally and will process traffic immediately if needed—it's just not currently being used.
+
+If you're certain the NAT Gateway isn't needed, you can delete it to eliminate charges. If you need it as a standby resource, you'll continue paying for it.",2026-03-16T19:33:21.958162+00:00,Incorrect,,,,"The model response inaccurately states the time frame for inactivity as 7 days instead of the verified 32-day lookback period. Additionally, it does not mention that the NAT Gateway is not associated with route tables, which is a key requirement for being flagged as inactive."
+18,What conditions cause an AWS NAT Gateway to be flagged as inactive by Trusted Advisor?,Gemma,gemma-3-27b-it,False,What conditions cause an AWS NAT Gateway to be flagged as inactive by Trusted Advisor?,"A NAT Gateway is flagged as inactive by Trusted Advisor when it has **no active network connections for an extended period (typically 14 days)**. 
+
+Essentially, if no instances are actively using the NAT Gateway to initiate outbound traffic to the internet, Trusted Advisor will consider it inactive and potentially costing you money unnecessarily. It doesn't mean the NAT Gateway is *broken*, just unused.",2026-03-16T19:33:25.097432+00:00,Incorrect,,,,The model response mentions an incorrect time period for inactivity (14 days instead of 32 days) and does not mention the requirement of not being associated with route tables.
+19,How is Amazon Connect Health integrate with Electronic Health Records (EHRs)?,ChatGPT,gpt-4o-mini,False,How is Amazon Connect Health integrate with Electronic Health Records (EHRs)?,"Amazon Connect Health integrates with Electronic Health Records (EHRs) through APIs and connectors that facilitate data exchange between the two systems. Here’s how it generally works:
+
+1. **Data Synchronization**: Use APIs to synchronize patient data between Amazon Connect and the EHR system, allowing healthcare providers to access up-to-date patient information during calls.
+
+2. **Patient Identification**: When a patient calls, Amazon Connect can utilize data from the EHR to identify the patient and retrieve their records, reducing wait times and improving the caller's experience.
+
+3. **Routing and Contextual Information**: By leveraging patient data from EHRs, Amazon Connect can intelligently route calls to the appropriate healthcare professionals based on the patient's condition or needs.
+
+4. **Real-Time Updates**: Any changes made during a call, such as appointment scheduling or notes on patient interactions, can be immediately updated in the EHR for real-time record keeping.
+
+5. **Privacy and Compliance**: Integrations must comply with healthcare regulations such as HIPAA to ensure patient data is securely handled.
+
+Overall, by integrating with EHRs, Amazon Connect Health aims to enhance communication efficiency, improve patient care, and streamline healthcare operations.",2026-03-16T19:33:30.909849+00:00,Incorrect,,,,"The model response does not mention the unified SDK or the specific features like ambient documentation and medical coding as part of the integration, which are key elements described in the verified reference."
+19,How is Amazon Connect Health integrate with Electronic Health Records (EHRs)?,Claude,claude-haiku-4-5,False,How is Amazon Connect Health integrate with Electronic Health Records (EHRs)?,"# Amazon Connect Health and EHR Integration
+
+I should clarify that **Amazon Connect Health is not a standard AWS product** that I can confirm has specific, documented EHR integration capabilities.
+
+## What I can tell you:
+
+**Amazon Connect** (the contact center service) can potentially integrate with EHRs through:
+
+1. **Custom integrations** via:
+   - AWS Lambda functions
+   - Amazon AppFlow for data integration
+   - APIs and webhooks
+   - Third-party healthcare connectors
+
+2. **Common patterns**:
+   - Pulling patient data from EHRs during contact center interactions
+   - Screen pop functionality (displaying patient records to agents)
+   - Call logging back to EHR systems
+   - HIPAA-compliant data handling
+
+3. **HIPAA considerations**:
+   - BAA (Business Associate Agreement) required
+   - Encrypted data in transit and at rest
+   - Audit logging capabilities
+
+## What I'm uncertain about:
+
+- Whether ""Amazon Connect Health"" is a specific newer offering I'm not fully updated on
+- Specific pre-built connectors or templates for major EHRs (Epic, Cerner, etc.)
+
+## Recommendation:
+
+For accurate, current information about EHR integration capabilities, I'd suggest:
+- Checking AWS documentation directly
+- Contacting AWS healthcare solutions team
+- Reviewing the AWS marketplace for healthcare connectors
+
+Is there a specific EHR system or integration scenario you're asking about?",2026-03-16T19:33:35.926707+00:00,Incorrect,,,,"The model response incorrectly states that Amazon Connect Health is not a standard AWS product, which is misleading and contradictory to the verified reference answer. Additionally, it lacks key details about the unified SDK and specific EHR integration capabilities mentioned in the reference."
+19,How is Amazon Connect Health integrate with Electronic Health Records (EHRs)?,Gemma,gemma-3-27b-it,False,How is Amazon Connect Health integrate with Electronic Health Records (EHRs)?,"Amazon Connect Health integrates with Electronic Health Records (EHRs) primarily through **FHIR (Fast Healthcare Interoperability Resources) APIs**. 
+
+Here's a breakdown:
+
+* **FHIR Standard:** Amazon Connect Health leverages the FHIR standard for data exchange. This allows it to interact with EHR systems that also support FHIR.
+* **Connect Health as a FHIR Client:** Connect Health acts as a FHIR client, meaning it *requests* data from the EHR (the FHIR server). It doesn't typically *receive* pushes of data *to* Connect Health.
+* **Use Cases:** This integration enables features like:
+    * **Patient Context:**  Contact Center agents can view a patient's relevant EHR data (allergies, medications, recent visits) *during* a call, improving service and safety.  This requires agent authentication and authorization to access the EHR data.
+    * **Automated Workflows:**  FHIR data can be used to route calls to the appropriate agent or trigger automated tasks.
+    * **Post-Call Summarization:** Information gathered during the call can be written back to the EHR via FHIR (though this is less common and requires careful configuration).
+* **Integration Methods:** Integrations are typically achieved through:
+    * **Direct FHIR API Connections:** Connect Health can connect directly to EHRs that expose FHIR APIs.
+    * **Intermediary Platforms/Integration Engines:**  Often, organizations use integration platforms (like Redox, InterSystems HealthShare, or similar) to mediate the connection between Connect Health and their EHR, handling data transformation and security.
+
+
+
+It's important to note that the *specific* implementation details and capabilities depend on the EHR system and the chosen integration method.",2026-03-16T19:33:44.224298+00:00,Incorrect,,,,"The response emphasizes FHIR APIs but does not mention the unified SDK or the integration with AWS HealthLake, which are key elements of the verified answer. It also lacks details about ambient documentation and other AI capabilities that are part of the integration."
+20,"With the Amazon CloudWatch, can I set alerts for lock contention and integrate with EventBridge?",ChatGPT,gpt-4o-mini,False,"With the Amazon CloudWatch, can I set alerts for lock contention and integrate with EventBridge?","Yes, you can set alerts for lock contention using Amazon CloudWatch by creating custom metrics if lock contention metrics are not available by default. You can monitor these metrics and set up CloudWatch Alarms based on thresholds you define.
+
+Once you have the alarms, you can integrate them with Amazon EventBridge. You can create rules in EventBridge to listen for CloudWatch alarm state changes (e.g., from OK to ALARM) and initiate actions such as invoking AWS Lambda functions, sending notifications to Amazon SNS, or any other targets supported by EventBridge.
+
+In summary, you can monitor lock contention, set alerts in CloudWatch, and integrate those alerts with EventBridge for further automation or notifications.",2026-03-16T19:33:47.812433+00:00,Incorrect,,,,"The model response incorrectly states that creating custom metrics for lock contention is necessary if metrics are not available by default, which misrepresents the functionality of Amazon CloudWatch providing lock contention diagnostics specifically in Advanced mode. Additionally, it fails to mention that the lock contention feature is only available in Advanced mode of CloudWatch Database Insights, which is a key requirement in answering the question."
+20,"With the Amazon CloudWatch, can I set alerts for lock contention and integrate with EventBridge?",Claude,claude-haiku-4-5,False,"With the Amazon CloudWatch, can I set alerts for lock contention and integrate with EventBridge?","# CloudWatch Alerts for Lock Contention
+
+**Short answer: Not directly through CloudWatch native metrics.**
+
+## The Challenge
+
+CloudWatch doesn't have built-in metrics specifically for ""lock contention."" Lock contention is typically an application-level or database-level concern that isn't automatically tracked by CloudWatch.
+
+## What You CAN Do
+
+**1. Database-specific metrics** (if applicable):
+- **RDS/Aurora**: Monitor `DatabaseConnections`, `DBLoad`, and `AuroraBinlogReplicaLag`
+- **DynamoDB**: Monitor `ConsumedWriteCapacityUnits` and throttling metrics
+- **ElastiCache**: Monitor `EngineCPUUtilization` and eviction metrics
+
+**2. Custom metrics approach** (recommended):
+- Have your application measure lock contention and publish custom metrics to CloudWatch
+- Use CloudWatch Insights to analyze application logs for lock-related events
+- Set alarms on these custom metrics
+
+**3. EventBridge integration**:
+- Once you have CloudWatch alarms set up (native or custom), they **can trigger EventBridge** events
+- EventBridge can then route to SNS, Lambda, SQS, etc.
+
+## Example Flow
+Application → detects lock contention → publishes custom metric → CloudWatch alarm → EventBridge rule → notification/action
+
+Would you like guidance on implementing custom metrics for lock contention, or are you working with a specific database system?",2026-03-16T19:33:52.632744+00:00,Incorrect,,,,"The model response incorrectly states that CloudWatch does not have built-in metrics for lock contention, while the verified answer confirms that CloudWatch provides lock contention diagnostics in Advanced mode of Database insights. Additionally, it misses the specific mention of the availability of the feature in the context of AWS services and the date of integration with EventBridge."
+20,"With the Amazon CloudWatch, can I set alerts for lock contention and integrate with EventBridge?",Gemma,gemma-3-27b-it,False,"With the Amazon CloudWatch, can I set alerts for lock contention and integrate with EventBridge?","Yes, you can set alerts for lock contention using Amazon CloudWatch and integrate with EventBridge. Here's how:
+
+* **Monitoring Lock Contention:** CloudWatch doesn't *directly* monitor ""lock contention"" as a specific metric. However, you can monitor metrics that *indicate* lock contention. These include:
+    * **Database metrics:** For databases (RDS, Aurora, DynamoDB), monitor metrics like `DatabaseWaitTime`, `QueueLength`, `ContentionRatio` (DynamoDB), or similar metrics that show waiting/blocking.
+    * **Custom Metrics:**  If your application code exposes metrics related to lock wait times or contention, you can publish those as custom metrics to CloudWatch.
+    * **System Metrics:** CPU utilization, disk I/O – high values *could* indicate contention, though not directly.
+
+* **CloudWatch Alarms:** You create CloudWatch Alarms based on these metrics.  You define a threshold (e.g., `DatabaseWaitTime > 5 seconds`) and evaluation period.
+
+* **EventBridge Integration:** When a CloudWatch Alarm state changes (e.g., goes from OK to ALARM), you can configure it to trigger an EventBridge rule.  
+
+* **EventBridge Actions:** The EventBridge rule can then invoke various targets:
+    * **SNS:** Send notifications (email, SMS).
+    * **SQS:** Queue a message for processing.
+    * **Lambda:** Execute a function to automatically remediate the issue (e.g., scale up resources).
+    * **Other AWS Services:**  Many other integrations are possible.
+
+
+
+In summary, while CloudWatch doesn't have a dedicated ""lock contention"" metric, you can use related metrics, alarms, and EventBridge to effectively monitor for and respond to contention issues.",2026-03-16T19:34:01.016705+00:00,Incorrect,,,,"The model response incorrectly states that CloudWatch doesn't directly monitor 'lock contention,' which contradicts the verified reference that specifies CloudWatch provides lock contention diagnostics in Advanced mode. This is a key requirement missing from the answer."
+21,Why does EKS automatic node repair ignore DiskPressure and MemoryPressure node conditions?,ChatGPT,gpt-4o-mini,False,Why does EKS automatic node repair ignore DiskPressure and MemoryPressure node conditions?,"EKS (Elastic Kubernetes Service) automatic node repair ignores `DiskPressure` and `MemoryPressure` node conditions because these conditions typically indicate resource contention rather than a fundamental failure of the node itself. 
+
+1. **Resource Management**: Disk and memory pressure can often be alleviated through resource management tactics like evicting pods, scaling workloads, or optimizing resource requests and limits. Automatic repair is more concerned with issues that indicate the node is unhealthy or non-functional, such as `NotReady` or `NetworkUnavailable`.
+
+2. **Transient Conditions**: Disk and memory pressures can be transient and temporary issues that may not require the replacement of the node. If EKS were to replace nodes every time they experienced resource pressure, it could lead to unnecessary churn and instability in the cluster.
+
+3. **User-Controlled Remedies**: Administrators can often implement manual interventions to rectify the situation, such as adjusting pod configurations, adding more resources, or redistributing workloads. 
+
+By focusing on more severe conditions indicating full node failures, EKS can maintain cluster stability and minimize unnecessary disruptions.",2026-03-16T19:34:07.102433+00:00,Incorrect,,,,"The response fails to mention that Kubernetes manages these conditions through eviction behavior, which is a key requirement needed to fully answer the question. Additionally, it doesn't emphasize that DiskPressure and MemoryPressure are not considered node failures, which is important for understanding the rationale behind ignoring these conditions in automatic repairs."
+21,Why does EKS automatic node repair ignore DiskPressure and MemoryPressure node conditions?,Claude,claude-haiku-4-5,False,Why does EKS automatic node repair ignore DiskPressure and MemoryPressure node conditions?,"# EKS Automatic Node Repair and Pressure Conditions
+
+EKS automatic node repair ignores `DiskPressure` and `MemoryPressure` node conditions by design, for these practical reasons:
+
+## Primary Reasons
+
+1. **Resource pressure is often temporary and recoverable**
+   - MemoryPressure and DiskPressure frequently resolve themselves as pods complete, get evicted, or garbage collection runs
+   - Terminating a node for these conditions would be unnecessarily disruptive
+
+2. **Kubernetes already has mitigation mechanisms**
+   - The kubelet triggers pod eviction policies when memory/disk pressure occurs
+   - Node pressure conditions trigger the eviction admission controller
+   - These mechanisms handle the immediate problem without node replacement
+
+3. **Avoiding cascading failures**
+   - Automatically terminating nodes under resource pressure could cause rapid cluster churn
+   - This risks making the resource shortage worse, not better
+
+## What Node Repair Actually Targets
+
+EKS automatic node repair focuses on:
+- **NotReady** conditions (node is unresponsive)
+- **CordonSchedulingDisabled** conditions
+- Hardware failures and unrecoverable node states
+
+These are truly unrecoverable issues that require node replacement.
+
+## What You Should Do Instead
+
+For resource pressure, use:
+- **Horizontal Pod Autoscaler** (HPA) for pod scaling
+- **Cluster Autoscaler** or **Karpenter** for node scaling based on pending pods
+- **Pod Disruption Budgets** to control eviction behavior
+
+This approach is more graceful and targeted than replacing the entire node.",2026-03-16T19:34:12.551593+00:00,Correct,,,,"The model response accurately explains why EKS automatic node repair ignores DiskPressure and MemoryPressure. It addresses key reasons like the temporary nature of resource pressures, existing Kubernetes mechanisms for handling these conditions, and the potential risks of cascading failures. Additionally, it suggests appropriate alternative strategies, aligning well with the verified answer's content."
+21,Why does EKS automatic node repair ignore DiskPressure and MemoryPressure node conditions?,Gemma,gemma-3-27b-it,False,Why does EKS automatic node repair ignore DiskPressure and MemoryPressure node conditions?,"EKS automatic node repair intentionally ignores `DiskPressure` and `MemoryPressure` node conditions. This is because these conditions are often *symptoms* of a larger, underlying issue – typically a pod exceeding its resource requests/limits, or a bug in an application – rather than a failure of the node itself. 
+
+Automatically replacing a node due to these conditions would likely just move the problematic pod to a new node, causing the issue to reoccur.  
+
+EKS automatic node repair focuses on *node-level* failures (like unresponsive Kubelet, system issues) that a new node *will* resolve.  
+
+You should address `DiskPressure` and `MemoryPressure` through pod resource management (requests/limits), application debugging, and potentially Horizontal Pod Autoscaling (HPA).",2026-03-16T19:34:17.923814+00:00,Correct,,,,"The model response accurately explains why EKS automatic node repair ignores DiskPressure and MemoryPressure conditions, emphasizing the distinction between node failures and workload issues. It also suggests appropriate management strategies for these conditions, aligning with the verified reference."
+22,What types of AWS resources are automatically created when a managed node group is deployed?,ChatGPT,gpt-4o-mini,False,What types of AWS resources are automatically created when a managed node group is deployed?,"When you deploy a managed node group in Amazon EKS (Elastic Kubernetes Service), the following AWS resources are automatically created:
+
+1. **Amazon EC2 Instances**: The node group will provision EC2 instances based on the specifications you provide (instance type, count, etc.).
+
+2. **Auto Scaling Group**: An Auto Scaling group is created to manage the EC2 instances, ensuring that they can scale in or out based on your specified configurations.
+
+3. **Amazon EKS Cluster Role**: A service role for the EKS cluster is created, allowing necessary permissions for the control plane to manage the nodes.
+
+4. **Launch Configuration**: This is used to define the configuration details for the EC2 instances in the Auto Scaling group.
+
+5. **Security Group**: A security group is associated with the EC2 instances, which controls inbound and outbound traffic for those instances.
+
+6. **Node IAM Role**: An IAM role is created to provide permissions for the EC2 instances to interact with AWS services on behalf of the pods.
+
+These resources are configured to work together seamlessly to provide the environment needed for your Kubernetes workloads.",2026-03-16T19:34:22.710142+00:00,Incorrect,,,,"The model response includes additional AWS resources (EKS Cluster Role, Launch Configuration, Security Group, Node IAM Role) that are not automatically created specifically by a managed node group deployment, according to the verified answer."
+22,What types of AWS resources are automatically created when a managed node group is deployed?,Claude,claude-haiku-4-5,False,What types of AWS resources are automatically created when a managed node group is deployed?,"# AWS Resources Created with a Managed Node Group
+
+When you deploy an EKS managed node group, AWS automatically creates the following resources:
+
+## Primary Resources
+
+1. **Auto Scaling Group (ASG)**
+   - Manages the desired number of EC2 instances
+   - Handles scaling based on configured parameters
+
+2. **Launch Template**
+   - Defines the EC2 instance configuration
+   - Includes AMI, instance type, security groups, and user data
+
+3. **EC2 Instances**
+   - The actual worker nodes that run your Kubernetes pods
+   - Pre-configured with the EKS Optimized AMI
+
+4. **IAM Role**
+   - Node IAM role with necessary permissions
+   - Attached to EC2 instances for AWS API access
+
+## Associated Resources
+
+5. **Security Group**
+   - Controls inbound/outbound traffic to nodes
+   - Automatically configured for cluster communication
+
+6. **Network Interfaces (ENI)**
+   - Attached to each EC2 instance
+   - Manages networking connectivity
+
+7. **CloudWatch Log Group** (optional)
+   - For container/cluster logging if enabled
+
+## Key Point
+
+AWS manages these resources automatically, including updates and patches to the underlying infrastructure. You specify the node group configuration (instance type, desired size, subnets), and EKS handles the rest—though you retain control over scaling parameters and node group settings.",2026-03-16T19:34:26.916797+00:00,Incorrect,,,,"The model response includes additional resources that are not automatically created by AWS when deploying a managed node group, such as the Launch Template, IAM Role, Security Group, Network Interfaces, and CloudWatch Log Group, making it factually incorrect according to the verified reference answer."
+22,What types of AWS resources are automatically created when a managed node group is deployed?,Gemma,gemma-3-27b-it,False,What types of AWS resources are automatically created when a managed node group is deployed?,"When a managed node group is deployed in AWS (specifically within services like Amazon EMR on EKS or Amazon ECS), the following types of AWS resources are automatically created:
+
+* **EC2 Instances:** These are the worker nodes that comprise the node group.
+* **IAM Roles:** Roles are created to grant the EC2 instances permissions to access other AWS services.  Specifically, a role for the instances themselves and potentially a role for the EKS/ECS agent running on them.
+* **Auto Scaling Group (ASG):**  Manages the desired capacity, scaling, and health of the EC2 instances within the node group.
+* **Launch Template/Configuration:** Defines the configuration for the EC2 instances launched by the ASG (AMI, instance type, security groups, etc.).
+* **Security Groups:** Control network traffic to and from the EC2 instances.
+* **Elastic Network Interfaces (ENIs):**  Network interfaces attached to the EC2 instances.
+* **(Potentially) EBS Volumes:** Depending on the configuration, EBS volumes may be created and attached to the instances for persistent storage.
+
+
+
+It's important to note the *specific* resources and their configuration can vary slightly depending on the AWS service utilizing the managed node group.",2026-03-16T19:34:33.186265+00:00,Incorrect,,,,"The response incorrectly includes components related to Amazon EMR on EKS and Amazon ECS, which are not standard for managed node groups in EKS specifically. The core AWS resources created (EC2 instances and Auto Scaling group) are mentioned but need to be focused on EKS context. Including other services without clear distinction suggests a misunderstanding of the question's focus."
+23,"Which AWS service is responsible for generating temporary security credentials when an IAM role is assumed, and what are the advantages over long-term credentials?",ChatGPT,gpt-4o-mini,False,"Which AWS service is responsible for generating temporary security credentials when an IAM role is assumed, and what are the advantages over long-term credentials?","The AWS service responsible for generating temporary security credentials when an IAM role is assumed is **AWS Security Token Service (STS)**.
+
+### Advantages of Temporary Security Credentials over Long-Term Credentials:
+
+1. **Reduced Risk of Compromise**: Since temporary credentials are short-lived and automatically expire, the risk associated with credential leakage is minimized.
+
+2. **Minimized Permission Abuse**: Temporary credentials can have specific permissions tailored to the task at hand, reducing the risk of excessive permissions.
+
+3. **Automatic Expiration**: Unlike long-term credentials, temporary credentials automatically expire after a specified duration, limiting the window of opportunity for unauthorized access.
+
+4. **Easier Credential Management**: Temporary credentials eliminate the need to rotate long-term credentials regularly, simplifying security management.
+
+5. **Enhanced Security Practices**: They support the principle of least privilege by allowing permissions to be granted only for the duration needed and for specific tasks.
+
+6. **Cross-Account Access**: STS allows for secure temporary access across different AWS accounts without the need to share long-term credentials.
+
+Using AWS STS for temporary security credentials helps improve the overall security posture of your AWS environment.",2026-03-16T19:34:46.971431+00:00,Correct,,,,The model response accurately identifies AWS STS as the service that generates temporary security credentials and provides valid advantages that align with the verified reference answer.
+23,"Which AWS service is responsible for generating temporary security credentials when an IAM role is assumed, and what are the advantages over long-term credentials?",Claude,claude-haiku-4-5,False,"Which AWS service is responsible for generating temporary security credentials when an IAM role is assumed, and what are the advantages over long-term credentials?","# AWS Security Token Service (STS)
+
+## Service Responsible
+**AWS Security Token Service (STS)** is responsible for generating temporary security credentials when an IAM role is assumed.
+
+When you assume a role (via `AssumeRole`, `AssumeRoleWithWebIdentity`, `AssumeRoleWithSAML`, etc.), STS returns:
+- **Access Key ID**
+- **Secret Access Key**
+- **Session Token**
+- **Expiration time**
+
+## Advantages Over Long-Term Credentials
+
+### 1. **Limited Lifetime**
+- Credentials automatically expire (default 1 hour, max 12 hours for AssumeRole)
+- Reduces exposure window if compromised
+
+### 2. **Reduced Attack Surface**
+- No need to store long-term keys in applications or on servers
+- Particularly valuable for EC2 instances, Lambda, containers
+
+### 3. **Automatic Rotation**
+- No manual key management required
+- Eliminates risk of forgotten credential updates
+
+### 4. **Audit & Compliance**
+- Session tokens enable tracking of temporary credential usage
+- Better separation of duties and accountability
+
+### 5. **Fine-Grained Control**
+- Session policies can further restrict permissions
+- Conditions can limit usage by IP, time, etc.
+
+### 6. **Cross-Account Access**
+- Securely grant permissions to other AWS accounts without sharing long-term credentials
+
+### 7. **Federation Support**
+- Integrate with external identity providers (SAML, OIDC, Cognito)
+- Centralized identity management
+
+## Practical Example
+```
+EC2 instance assumes IAM role → STS generates temporary credentials 
+→ Application uses credentials for 1 hour → Credentials expire automatically
+```
+
+This pattern is far safer than embedding long-term AWS access keys in application code.",2026-03-16T19:34:51.987952+00:00,Correct,,,,"The model response accurately identifies AWS STS as the service that generates temporary security credentials and thoroughly explains the advantages over long-term credentials, covering key aspects such as limited lifetime, reduced attack surface, automatic rotation, and others mentioned in the reference answer."
+23,"Which AWS service is responsible for generating temporary security credentials when an IAM role is assumed, and what are the advantages over long-term credentials?",Gemma,gemma-3-27b-it,False,"Which AWS service is responsible for generating temporary security credentials when an IAM role is assumed, and what are the advantages over long-term credentials?","The AWS Security Token Service (STS) is responsible for generating temporary security credentials when an IAM role is assumed.
+
+**Advantages of temporary credentials over long-term credentials:**
+
+* **Reduced Risk of Compromise:** Temporary credentials have a limited lifespan. If compromised, the impact window is significantly smaller than with long-term access keys.
+* **Least Privilege:** Roles allow granting only the necessary permissions for a specific task and timeframe, adhering to the principle of least privilege.
+* **Centralized Credential Management:**  STS centralizes credential issuance and management, simplifying security policies.
+* **Federation:** STS enables federated access, allowing users authenticated by external identity providers (like corporate directories) to access AWS resources without needing AWS accounts.
+* **Auditing:** STS actions are logged in CloudTrail, providing an audit trail of credential usage.",2026-03-16T19:34:57.746395+00:00,Incorrect,,,,"The model response misses key advantages mentioned in the verified answer, such as automatic expiration and that temporary credentials do not need manual rotation. While some points are valid, they do not align fully with the verified answer's requirements."
+24,How can encryption context conditions in a KMS key policy be used to restrict decryption operations to a specific application or role?,ChatGPT,gpt-4o-mini,False,How can encryption context conditions in a KMS key policy be used to restrict decryption operations to a specific application or role?,"In AWS Key Management Service (KMS), encryption context is a set of key-value pairs that can be specified during encryption and decryption operations. You can leverage encryption context along with AWS KMS key policies to restrict decryption operations to a specific application or role.
+
+Here's how you can use it:
+
+1. **Define the Encryption Context**: When encrypting data with a KMS key, include a specific encryption context that identifies the application or role. This could be a unique identifier or attribute related to the application.
+
+2. **Modify the Key Policy**: In the KMS key policy, you can specify conditions that require the correct encryption context for decryption. This is done by using the `kms:EncryptionContext` condition key.
+
+3. **Condition Example**: In your key policy, you would add a condition that checks for a specific encryption context value. For example:
+   ```json
+   {
+     ""Effect"": ""Allow"",
+     ""Principal"": {
+       ""AWS"": ""arn:aws:iam::ACCOUNT_ID:role/YOUR_ROLE""
+     },
+     ""Action"": ""kms:Decrypt"",
+     ""Resource"": ""*"",
+     ""Condition"": {
+       ""StringEquals"": {
+         ""kms:EncryptionContext:Application"": ""YourApplicationName""
+       }
+     }
+   }
+   ```
+   In this example, the decryption operation is only allowed if the encryption context contains the specific application name.
+
+4. **Implementation**: When your application attempts to decrypt data, ensure it provides the same encryption context used during encryption. If it does not match the policy's conditions, the decryption will be denied.
+
+### Benefits
+- **Security**: Restricts access to sensitive data based on application roles, reducing the risk of unauthorized access.
+- **Flexibility**: Multiple applications can use the same KMS key with different contexts, allowing more granular control.
+
+Using encryption context conditions effectively increases security by ensuring that only designated applications or roles can perform decryption operations with the respective KMS key.",2026-03-16T19:35:05.835576+00:00,Correct,,,,"The model response accurately explains how encryption context conditions in a KMS key policy can be used to restrict decryption operations. It covers key concepts such as defining the encryption context, modifying the key policy with conditions, and the importance of matching context during decryption, and provides a relevant example. All key requirements are addressed."
+24,How can encryption context conditions in a KMS key policy be used to restrict decryption operations to a specific application or role?,Claude,claude-haiku-4-5,False,How can encryption context conditions in a KMS key policy be used to restrict decryption operations to a specific application or role?,"# Using Encryption Context in KMS Key Policies
+
+Encryption context conditions restrict decryption to specific applications/roles by requiring matching key-value pairs. Here's how:
+
+## Basic Mechanism
+
+When you encrypt data with KMS, you can include **encryption context** (a set of key-value pairs). The key policy can then enforce that decryption only succeeds when the same context is provided:
+
+```json
+{
+  ""Sid"": ""RestrictDecryptionByContext"",
+  ""Effect"": ""Allow"",
+  ""Principal"": {
+    ""AWS"": ""arn:aws:iam::ACCOUNT:role/ApplicationRole""
+  },
+  ""Action"": ""kms:Decrypt"",
+  ""Resource"": ""*"",
+  ""Condition"": {
+    ""StringEquals"": {
+      ""kms:EncryptionContext:Application"": ""MyApp"",
+      ""kms:EncryptionContext:Environment"": ""Production""
+    }
+  }
+}
+```
+
+## How It Works
+
+1. **Encryption** (application side):
+```bash
+aws kms encrypt \
+  --key-id arn:aws:kms:... \
+  --plaintext fileb://data.txt \
+  --encryption-context Application=MyApp,Environment=Production
+```
+
+2. **Key Policy Check**: During decryption, KMS verifies the context matches the policy condition
+
+3. **Decryption** (must include same context):
+```bash
+aws kms decrypt \
+  --ciphertext-blob fileb://encrypted.txt \
+  --encryption-context Application=MyApp,Environment=Production
+```
+
+**Without matching context, decryption fails** even if the role has `kms:Decrypt` permission.
+
+## Practical Application-Level Restriction
+
+Combine role + context for defense-in-depth:
+
+```json
+{
+  ""Sid"": ""AppSpecificDecryption"",
+  ""Effect"": ""Allow"",
+  ""Principal"": {
+    ""AWS"": ""arn:aws:iam::ACCOUNT:role/WebAppRole""
+  },
+  ""Action"": [""kms:Decrypt"", ""kms:GenerateDataKey""],
+  ""Resource"": ""*"",
+  ""Condition"": {
+    ""StringEquals"": {
+      ""kms:EncryptionContext:AppName"": ""WebApp"",
+      ""kms:EncryptionContext:Owner"": ""TeamA""
+    }
+  }
+}
+```
+
+## Key Considerations
+
+- **Encryption context is NOT secret** (visible in CloudTrail)—don't put sensitive data in it
+- **Must be provided by application** during decrypt—it's not automatically retrieved
+- **Exact match required** (case-sensitive)
+- Best used for **audit/segregation**, not for protecting against compromised application credentials
+
+Would you like clarification on implementing this in a specific application framework?",2026-03-16T19:35:12.748803+00:00,Correct,,,,"The model response accurately explains how encryption context conditions in a KMS key policy restrict decryption operations by requiring specific key-value pairs. It demonstrates proper use of KMS features, including examples and correct interpretations of key policy conditions, adhering to the details in the verified reference."
+24,How can encryption context conditions in a KMS key policy be used to restrict decryption operations to a specific application or role?,Gemma,gemma-3-27b-it,False,How can encryption context conditions in a KMS key policy be used to restrict decryption operations to a specific application or role?,"Encryption context conditions in a KMS key policy restrict decryption by requiring the caller to provide specific key-value pairs alongside the decryption request. 
+
+Here's how it works to restrict access to an application or role:
+
+1. **Define an Encryption Context:** When *encrypting* data, you include key-value pairs in the encryption context.  For example: `{""app"": ""MyApplication"", ""role"": ""DataProcessor""}`.
+
+2. **Policy Condition:** In the KMS key policy, you add a condition that *requires* these same key-value pairs to be present during *decryption*.  The policy statement will look something like this (simplified):
+
+   ```json
+   {
+     ""Sid"": ""Allow decryption by MyApplication DataProcessor"",
+     ""Effect"": ""Allow"",
+     ""Principal"": {
+       ""AWS"": ""*""  // Or a specific IAM role/user ARN
+     },
+     ""Action"": ""kms:Decrypt"",
+     ""Resource"": ""*"",
+     ""Condition"": {
+       ""StringEquals"": {
+         ""kms:EncryptionContext"": {
+           ""app"": ""MyApplication"",
+           ""role"": ""DataProcessor""
+         }
+       }
+     }
+   }
+   ```
+
+3. **Decryption Request:**  When a principal attempts to decrypt, they *must* include the exact same encryption context key-value pairs in their `Decrypt` API call.  If the context doesn't match the policy condition, the decryption will be denied.
+
+**How this restricts access:**
+
+* **Application Control:**  Only code specifically designed to include the correct ""app"" key-value pair can decrypt the data.
+* **Role-Based Access:**  The ""role"" key-value pair can further restrict decryption to only those components acting in a specific role.
+* **Defense in Depth:**  Even if a principal gains unauthorized access to the ciphertext, they cannot decrypt it without the correct encryption context.
+
+
+
+Essentially, the encryption context becomes an additional authentication factor for decryption.",2026-03-16T19:35:22.629188+00:00,Incorrect,,,,"The response incorrectly describes the condition for matching encryption context. The correct syntax for checking specific key-value pairs should use kms:EncryptionContext:context-key instead of kms:EncryptionContext. The response also lacks specific mention of the requirement for exact matches in the key-value pairs, which is critical to understanding how restrictions function."
+25,How do Bedrock Projects prevent prompts and responses from one application being accessed by another?,ChatGPT,gpt-4o-mini,False,How do Bedrock Projects prevent prompts and responses from one application being accessed by another?,"Amazon Bedrock uses several mechanisms to ensure that prompts and responses from one application are isolated and cannot be accessed by another. Here are some key approaches:
+
+1. **Logical Isolation**: Each Bedrock project operates in its own namespace. This means that data and requests are logically separated, preventing unintended access.
+
+2. **Identity and Access Management (IAM)**: AWS IAM policies can be applied to restrict who or what can access specific resources within a Bedrock project, ensuring that only authorized applications can interact with the prompts and responses.
+
+3. **Data Encryption**: Data in transit and at rest is encrypted, adding an additional layer of security against unauthorized access.
+
+4. **API Keys and Secrets**: Applications use unique API keys or secrets for authentication, which helps to ensure that only the intended application can send requests to the Bedrock service.
+
+5. **Monitoring and Logging**: AWS CloudTrail and other logging services monitor access and actions, providing the ability to audit and ensure that no unauthorized access has occurred.
+
+6. **Environment Separation**: Using different environments (e.g., development, staging, production) further separates the resources used by different applications, enhancing security.
+
+These combined measures create a robust framework for preventing cross-application access to prompts and responses.",2026-03-16T19:35:27.918817+00:00,Incorrect,,,,"The response includes accurate information but introduces several mechanisms (like data encryption and monitoring/logging) that are not specifically mentioned in the verified reference. It misses key details about associating inference requests with a specific project ID and creating logical boundaries, which are essential elements of the isolation process as per the verified answer."
+25,How do Bedrock Projects prevent prompts and responses from one application being accessed by another?,Claude,claude-haiku-4-5,False,How do Bedrock Projects prevent prompts and responses from one application being accessed by another?,"# Bedrock Projects - Access Isolation
+
+Bedrock Projects provide logical isolation through **access control and resource scoping**, but I should clarify what they do and don't guarantee:
+
+## What Projects Provide:
+
+1. **IAM-based access control** - You can grant users/roles permissions to specific projects via IAM policies. Projects act as a scoping mechanism for fine-grained permissions.
+
+2. **Audit trail separation** - Prompts and responses are logged separately per project, making it easier to track usage by application.
+
+3. **Resource organization** - Projects help organize knowledge bases, agents, and other resources logically, reducing accidental cross-application access.
+
+## Important Limitations:
+
+**Projects do NOT provide cryptographic or network-level isolation.** A user with broad IAM permissions (like `bedrock:*`) could potentially access any project's data. The isolation is primarily through:
+- Permission boundaries (who is allowed to access what)
+- Logical separation for organization and audit purposes
+
+## Best Practices:
+
+- Use **restrictive IAM policies** that grant access only to specific projects
+- Implement **least-privilege access** at the user/role level
+- Use **resource tags** to enforce project boundaries programmatically
+- Monitor **CloudTrail logs** for cross-project access attempts
+
+**Bottom line:** Projects prevent *accidental* access between applications through organizational controls, but security ultimately depends on proper IAM configuration. They're not a zero-trust security boundary.",2026-03-16T19:35:33.230156+00:00,Incorrect,,,,"The model response misses the key point about using a specific project ID to associate inference requests, which is critical for isolating prompts and responses. Additionally, it downplays the importance of project-level isolation as stated in the verified answer."
+25,How do Bedrock Projects prevent prompts and responses from one application being accessed by another?,Gemma,gemma-3-27b-it,False,How do Bedrock Projects prevent prompts and responses from one application being accessed by another?,"Bedrock Projects provide isolation between applications by creating dedicated environments within your AWS account. Here's how they prevent cross-application access to prompts and responses:
+
+* **Isolated Foundation Model Access:** Each Project is configured to access specific foundation models (e.g., Claude, Titan). This limits the models available to each application.
+* **Separate IAM Policies:** Projects have their own IAM policies. These policies control *who* within your organization can access the Project and *what* actions they can perform (e.g., invoke the model, view prompts).  This granular control prevents unauthorized access from other applications' roles.
+* **Dedicated S3 Buckets (Optional but Recommended):**  You can configure a Project to use a dedicated S3 bucket for storing input data and output responses. This physically separates the data used by each application.  While not *required*, it's the strongest form of isolation.
+* **No Shared Resources:**  Projects don't share resources like caching mechanisms or rate limits. Each operates independently.
+
+
+
+In essence, Projects act as logical boundaries, ensuring that prompts and responses remain contained within the intended application's environment.",2026-03-16T19:35:39.034335+00:00,Incorrect,,,,"The response contains inaccuracies regarding the methods of isolation and does not explicitly mention the importance of project IDs for isolating data, which is a key requirement from the verified answer."

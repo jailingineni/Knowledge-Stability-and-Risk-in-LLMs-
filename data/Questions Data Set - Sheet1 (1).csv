@@ -1,0 +1,133 @@
+,Question,Model,Model_Version,Rag_Enabled,Prompt,Response,Correctness,Impact,Likelihood,Risk_Score,Timestamp,Notes,Answer
+1,"Can public certificates issued by AWS Certificate Manager be exported for use outside AWS services? If not, what alternatives exist?",,,,,,,,,,,,"Yes, ACM supports exporting public certificates only if they are requested as exportable certificates. Otherwise, ACM certificates can only be used with integrated AWS services. Alternatives include requesting a new exportable certificate, importing a third-party certificate into ACM, or obtaining a certificate from another certificate authority. https://aws.amazon.com/blogs/aws/aws-certificate-manager-introduces-exportable-public-ssl-tls-certificates-to-use-anywhere/#:~:text=If%20you%20select%20Disable%20export,each%20to%20a%20separate%20file."
+2,What is the maximum validity period public certificates issued from AWS Certificate Manager (ACM),,,,,,,,,,,,"The maximum validity period for public certificates issued by AWS Certificate Manager (ACM) is:
+
+198 days.
+
+This change was announced on February 18, 2026 to comply with the CA/Browser Forum requirement that public TLS certificates must be no longer than 200 days starting March 15, 2026.
+
+Important context
+
+Before this change: ACM certificates were valid for 395 days.
+
+Now: The maximum validity period is 198 days.
+
+https://aws.amazon.com/about-aws/whats-new/2026/02/aws-certificate-manager-updates-default/"
+3,"Does Amazon EC2 support nested virtualization on virtualized EC2 instances, and which instance families currently support this feature?",,,,,,,,,,,,"Yes, Amazon EC2 supports nested virtualization on virtualized EC2 instances. The feature is currently available on the C8i, M8i, and R8i instance families. - https://aws.amazon.com/about-aws/whats-new/2026/02/amazon-ec2-nested-virtualization-on-virtual/"
+4,"How does AWS Backup support cross-Region snapshot copies to logically air-gapped vaults, and what change simplified this process in 2026?",,,,,,,,,,,,"AWS Backup supports cross-Region protection by allowing database snapshots to be copied into logically air-gapped vaults, which provide isolated and secure backup storage. Before 2026, this required a two-step process—first copying the snapshot to a backup vault in the target Region and then copying it again to the air-gapped vault. In 2026, AWS introduced a single-action copy feature, allowing snapshots to be copied directly across Regions to logically air-gapped vaults, simplifying the workflow. - https://aws.amazon.com/about-aws/whats-new/2026/02/aws-backup-adds-cross-region-database-snapshot-logically-air-gapped-vaults/"
+5,"Does Amazon Bedrock support structured outputs for foundation models, and how can developers enforce a specific response format?",,,,,,,,,,,,"Yes, Amazon Bedrock supports structured outputs for foundation models. Developers can enforce a specific response format by defining a JSON Schema output format, which constrains the model to generate schema-compliant JSON responses, or by enabling strict tool use (strict: true) to ensure that tool inputs exactly match the defined schema during agentic workflows. - https://aws.amazon.com/blogs/machine-learning/structured-outputs-on-amazon-bedrock-schema-compliant-ai-responses/"
+6,"When restoring a database snapshot in Amazon RDS or Aurora, can you now modify the backup retention period and preferred backup window during the restore process?",,,,,,,,,,,,"Yes. When restoring a database snapshot in Amazon RDS or Amazon Aurora, you can now view and modify the backup retention period and preferred backup window during the restore process, rather than having to change these settings after the restore is completed. - https://aws.amazon.com/about-aws/whats-new/2026/02/rds-aurora-backup-configuration-restoring-snapshots/"
+7,"Does AWS IAM Identity Center support multi-Region replication, and what must be configured before replication can be enabled in an additional Region?",,,,,,,,,,,,"Yes, AWS IAM Identity Center supports multi-Region replication, allowing workforce identities and permission sets to be replicated from a primary Region to additional Regions. Before enabling replication, you must configure and replicate a customer-managed multi-Region AWS KMS key to the target Region and grant it the permissions required for IAM Identity Center operations. - https://aws.amazon.com/blogs/aws/aws-iam-identity-center-now-supports-multi-region-replication-for-aws-account-access-and-application-use/"
+8,"Which Java runtimes are supported by AWS Lambda, and which one is the latest?",,,,,,,,,,,,"AWS Lambda currently supports the following managed Java runtimes:
+
+Java 25 — runtime identifier: java25
+
+Java 21 — runtime identifier: java21
+
+Java 17 — runtime identifier: java17
+
+Java 11 — runtime identifier: java11
+
+Java 8 (Amazon Linux 2) — runtime identifier: java8.al2
+
+These runtimes run on either Amazon Linux 2023 (newer runtimes) or Amazon Linux 2 (older runtimes).
+
+Latest Java Runtime
+
+The latest supported Java runtime in AWS Lambda is:
+
+Java 25 (java25) running on Amazon Linux 2023.
+
+Summary
+
+Supported Java runtimes: Java 25, Java 21, Java 17, Java 11, and Java 8 (AL2)
+
+Latest runtime: Java 25
+
+Newer runtimes use Amazon Linux 2023 for improved security and long-term support. - https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+9,"What are partitioned CRLs in AWS Private Certificate Authority, and how do they improve scalability for certificate revocation?",,,,,,,,,,,,"Partitioned CRLs are smaller, distributed revocation lists used by AWS Private CA instead of one large CRL. They improve scalability by increasing revocation capacity from about 1 million to 100 million certificates per CA, while keeping each CRL partition small enough for broad application compatibility. - https://aws.amazon.com/blogs/security/aws-private-certificate-authority-now-supports-partitioned-crls/"
+10,How many certificates per CA can AWS Private Certificate Authority support when using partitioned CRLs?,,,,,,,,,,,,AWS Private CA can support up to 100 million certificates per CA when using partitioned CRLs.
+11,"What new capability allows Amazon CloudWatch to unify and manage log data across operational, security, and compliance use cases, and which open standards does it support for log normalization?",,,,,,,,,,,,"Amazon CloudWatch introduced a unified data management and analytics capability for logs, enabling centralized ingestion, normalization, and analysis of log data across operational, security, and compliance use cases. It supports the open standards Open Cybersecurity Schema Framework (OCSF) and OpenTelemetry (OTel) for log normalization. - https://aws.amazon.com/blogs/aws/amazon-cloudwatch-introduces-unified-data-management-and-analytics-for-operations-security-and-compliance/"
+12,What optimization actions can AWS Compute Optimizer automatically perform on Amazon EBS volumes using automation rules?,,,,,,,,,,,,AWS Compute Optimizer automation rules can automatically snapshot and delete unattached EBS volumes and upgrade older EBS volume types (gp2 to gp3 and io1 to io2) based on its optimization recommendations. - https://aws.amazon.com/blogs/aws-cloud-financial-management/introducing-automated-amazon-ebs-volume-optimization-in-aws-compute-optimizer/
+13,What new feature in AWS Control Tower allows customers to use AWS managed controls without deploying a full landing zone?,,,,,,,,,,,,"The feature is the Controls Dedicated experience, which allows customers to use AWS managed controls in AWS Control Tower without deploying a full landing zone. - https://aws.amazon.com/blogs/aws/aws-control-tower-introduces-a-controls-dedicated-experience/"
+14,"How does AWS Organizations Multi-party Approval support proactive approval team health management, and how often does AWS recommend running baseline tests?",,,,,,,,,,,,AWS Organizations MPA supports proactive approval team health management by allowing administrators to run manual test approval sessions (baseline tests) to verify approver availability and workflow readiness. AWS recommends performing these baseline tests every 90 days. - https://aws.amazon.com/about-aws/whats-new/2026/03/multi-party-approval-team-baselining/
+15,"After the release of Redshift introducing new array functions for semi-structured data processing, is array_sort deterministic for complex SUPER elements (objects/structs), and if so, what ordering rules does it apply?",,,,,,,,,,,,"Yes, Amazon Redshift's ARRAY_SORT function is deterministic. The ordering of complex SUPER elements (objects/structs) within an array follows specific, consistent rules based on their type and internal structure, enabling reliable sorting of nested data.Yes, Amazon Redshift's ARRAY_SORT function is deterministic. The ordering of complex SUPER elements (objects/structs) within an array follows specific, consistent rules based on their type and internal structure, enabling reliable sorting of nested data. 
+
+Ordering Rules for Complex SUPER Elements
+When using ARRAY_SORT on arrays of complex SUPER elements, the sorting logic is based on a well-defined comparison mechanism that ensures deterministic results. The general ordering rules are as follows:
+Nulls: null values are sorted first, before any other data types.
+Scalar Types: For simple scalar values (e.g., integers, strings, booleans), the standard comparison rules apply (e.g., numeric order for numbers, lexicographical order for strings).
+Complex Types (Objects/Structs and Arrays):
+Type Precedence: The comparison logic follows a specific data type precedence if elements are of different types.
+Object/Struct Comparison: When comparing two objects, the sorting is based on comparing the values associated with their keys. The order is determined by a recursive comparison of the values. If the keys are different, or if values for common keys differ, a deterministic comparison is made based on the underlying data and structure.
+Nested Array Comparison: When comparing nested arrays, the comparison is element-by-element from left to right. The first pair of non-equal elements determines the order, similar to standard array sorting behavior.
+Consistency: The key aspect is that the sorting guarantees a consistent order for the same input data every time the function is called, which is crucial for predictable analytics and set operations. 
+
+https://aws.amazon.com/about-aws/whats-new/2026/03/amazon-redshift-nine-new-array-functions/#:~:text=Amazon%20Redshift%20now%20supports%20nine,more%2C%20please%20visit%20our%20documentation., https://docs.aws.amazon.com/redshift/latest/dg/super-overview.html"
+16,"What are the functionality and differences between multiple resource configs such as AWS::DataBrew::Dataset, ,AWS::DataBrew::Job, AWS::DataBrew::Recipe, AWS::DataBrew::Ruleset?",,,,,,,,,,,,"The AWS Glue DataBrew resources serve distinct purposes in the data preparation workflow, acting as building blocks that define different aspects of data handling and processing. 
+Amazon AWS Documentation
+Amazon AWS Documentation
+Resource         Functionality
+AWS::DataBrew::Dataset        Defines a pointer to your raw, structured or semi-structured data, typically stored in Amazon S3 or the AWS Glue Data Catalog. It outlines connection details, file format, and data interpretation options. It is not the data itself, but rather the metadata that tells DataBrew where to find the data.
+AWS::DataBrew::Recipe        A recipe is a set of data transformation steps, similar to a script or program for data cleaning and normalization. These steps are authored visually in the DataBrew console and can include over 350 pre-built transformations, such as filtering anomalies, correcting invalid values, and converting formats. A recipe can be versioned and reused.
+AWS::DataBrew::Ruleset        A ruleset is a collection of data quality rules that are used to validate the quality of a dataset. It compares various data metrics against expected values and is applied during a profile job to assess data quality and identify issues.
+AWS::DataBrew::Job        A job is the execution component that actually runs a recipe against a dataset or performs a data profile on a dataset. It includes configuration for compute resources (e.g., number of nodes, timeout), input/output locations (e.g., S3 output path), and execution parameters. A job operationalizes the transformations defined in a recipe or generates a data profile with associated ruleset checks.
+In summary:
+You define where your data is using an AWS::DataBrew::Dataset.
+You define how to transform your data using an AWS::DataBrew::Recipe.
+You define how to validate your data quality using an AWS::DataBrew::Ruleset.
+You run the process of transformation or validation using an AWS::DataBrew::Job. 
+https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-databrew-dataset.html#:~:text=Properties,-Format&text=The%20file%20format%20of%20a,Amazon%20S3%20file%20or%20folder.&text=A%20set%20of%20options%20that,the%20data%20in%20the%20dataset.&text=Information%20on%20how%20DataBrew%20can,Data%20Catalog%20or%20Amazon%20S3.&text=The%20unique%20name%20of%20the%20dataset.&text=A%20set%20of%20options%20that%20defines%20how%20DataBrew%20interprets,S3%20path%20of%20the%20dataset.&text=The%20location%20of%20the%20data,the%20AWS%20Glue%20Data%20Catalog.&text=Metadata%20tags%20that%20have%20been%20applied%20to%20the%20dataset."
+17,"In AWS Lightsail OpenClaw, what happens to paired browser sessions when a gateway token is rotated, and where are messaging channel credentials stored on the instance?",,,,,,,,,,,,"Browser sessions: Rotating the gateway token invalidates existing paired browser sessions, requiring them to reconnect using the new token.
+
+Credential storage: Messaging channel credentials (including the gateway token) should be stored in the instance’s environment file rather than hardcoded in configuration files. https://aws.amazon.com/blogs/aws/introducing-openclaw-on-amazon-lightsail-to-run-your-autonomous-private-ai-agents/"
+18,What conditions cause an AWS NAT Gateway to be flagged as inactive by Trusted Advisor?,,,,,,,,,,,,"A NAT Gateway is flagged as inactive by AWS Trusted Advisor when:
+
+CloudWatch metrics show no activity over a 32-day lookback period, and
+
+The NAT Gateway is not associated with route tables, indicating it is not routing traffic. - https://aws.amazon.com/about-aws/whats-new/2026/02/trusted-advisor-unused-nat-gateway-check/"
+19,How is Amazon Connect Health integrate with Electronic Health Records (EHRs)?,,,,,,,,,,,,"Amazon Connect Health integrates with EHR systems by providing a unified SDK that allows developers to embed AI capabilities directly into existing EHR workflows, including features like ambient documentation, patient insights, and medical coding. It also connects to EHR systems through real-time integrations for patient verification and scheduling, and can access unified healthcare data via AWS HealthLake or interoperability partners like Redox. https://aws.amazon.com/blogs/industries/introducing-amazon-connect-health-agentic-ai-for-healthcare-built-for-the-people-who-deliver-it/"
+20,"With the Amazon CloudWatch, can I set alerts for lock contention and integrate with EventBridge?",,,,,,,,,,,,"Yes, Amazon CloudWatch provides lock contention diagnostics which help you identify root cause behind ongoing and historical lock contention issues within minutes. The lock contention feature is avaliable only in Advanced mode of CloudWatch Database insights. Amazon EventBridge has been integrated with Amazon CloudWatch since Oct 2019, so when CloudWatch alarms are triggered, matching EventBridge rule also executing target.  https://aws.amazon.com/about-aws/whats-new/2026/02/amazon-cloudwatch-lock-contention-diagnostics-rds-postgresql/#:~:text=Amazon%20CloudWatch%20Database%20Insights%20now,lock%20contention%20issues%20within%20minutes. and https://aws.amazon.com/about-aws/whats-new/2019/10/amazon-cloudwatch-sends-alarm-state-change-events-amazon-eventbridge/#:~:text=Amazon%20CloudWatch%20now%20sends%20alarm%20state%20change%20events%20to%20Amazon%20EventBridge,-Posted%20on:%20Oct&text=Amazon%20EventBridge%20now%20integrates%20with,EventBridge%20console%2C%20CLI%20and%20SDK. "
+21,Why does EKS automatic node repair ignore DiskPressure and MemoryPressure node conditions?,,,,,,,,,,,,"EKS automatic node repair ignores the DiskPressure, MemoryPressure, and PIDPressure node conditions because these conditions usually indicate problems caused by application behavior, workload configuration, or resource limits rather than failures of the node itself. Because of this, it is difficult for EKS to determine an appropriate automatic repair action, such as rebooting or replacing the node.
+
+Instead of repairing the node, Kubernetes handles these situations through node pressure eviction behavior, where workloads may be evicted from the node to free up resources.
+
+So according to the documentation, EKS automatic node repair ignores these conditions because:
+
+They typically reflect workload or resource usage issues, not node failures.
+
+There is no clear default repair action for these situations.
+
+Kubernetes already manages them through node pressure eviction mechanisms. https://docs.aws.amazon.com/eks/latest/userguide/node-health.html"
+22,What types of AWS resources are automatically created when a managed node group is deployed?,,,,,,,,,,,,"When a managed node group is deployed, Amazon EKS automatically creates Amazon EC2 instances and an Amazon EC2 Auto Scaling group to manage those instances. - https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html"
+23,"Which AWS service is responsible for generating temporary security credentials when an IAM role is assumed, and what are the advantages over long-term credentials?",,,,,,,,,,,,"AWS Security Token Service (AWS STS) generates temporary security credentials when an IAM role is assumed.
+
+Advantages over Long-Term Credentials
+
+According to the page, temporary security credentials have several advantages:
+
+Short-term validity
+
+They last only for a limited time (from a few minutes to several hours).
+
+After they expire, they can no longer be used.
+
+Generated dynamically
+
+They are not stored with the user and are created when requested.
+
+No need to distribute long-term credentials
+
+Applications do not need embedded or distributed permanent access keys.
+
+Access without creating AWS identities
+
+They allow access for users through roles and identity federation without creating IAM users.
+
+Automatic expiration
+
+Since they expire automatically, they don’t need manual rotation or revocation once they are no longer needed. - https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp.html-"
+24,How can encryption context conditions in a KMS key policy be used to restrict decryption operations to a specific application or role?,,,,,,,,,,,," Encryption context conditions in a KMS key policy restrict decryption operations by requiring specific encryption context key–value pairs in the request. Using condition keys like kms:EncryptionContext:context-key, the policy allows a role or application to perform kms:Decrypt only when the request includes the specified encryption context (for example, AppName=ExampleApp). If the required encryption context is missing or does not match, the decryption request is denied.- https://docs.aws.amazon.com/kms/latest/developerguide/encrypt_context.html"
+25,How do Bedrock Projects prevent prompts and responses from one application being accessed by another?,,,,,,,,,,,,"Amazon Bedrock Projects prevent prompts and responses from one application being accessed by another by creating logical boundaries that isolate workloads within a single AWS account. Each project provides access isolation using IAM policies, so only authorized users or applications can access the resources and inference requests associated with that specific project.
+
+By associating inference requests with a specific project ID, prompts, responses, and context data are isolated within that project, ensuring that data from one application cannot be accessed by other applications. - https://docs.aws.amazon.com/bedrock/latest/userguide/projects.html"
