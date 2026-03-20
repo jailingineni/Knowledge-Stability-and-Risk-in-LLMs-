@@ -1,4 +1,4 @@
-##Instrctutions to Run the Project
+#Instrctutions to Run the Project
 
 ## Prequistes
 Have the following installed
