@@ -1,4 +1,4 @@
-#Instrctutions to Run the Project
+##Instrctutions to Run the Project
 
 ## Prequistes
 Have the following installed
@@ -17,7 +17,7 @@ source venv/bin/activate        # Mac/Linux
 venv\Scripts\activate           # Windows
 
 
-## install dependencies
+## Install dependencies
 - pip install -r requirements.txt
 
 ## Configure API Keys
