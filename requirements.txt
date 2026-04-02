@@ -1,4 +1,7 @@
 annotated-types==0.7.0
+beautifulsoup4>=4.12.0
+faiss-cpu>=1.8.0
+lxml>=5.0.0
 anthropic==0.85.0
 anyio==4.12.1
 certifi==2026.2.25
